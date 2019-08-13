@@ -50,14 +50,13 @@ const MutationRoot = new graphql.GraphQLObjectType({
 			},
 			resolve: async (parent, { email, password}, context, resolveInfo) => {
 				const player = await models.Player.findOne({ where: { email }, include: { model: models.Team } });
-				if (player.dataValues.password !== password) {
+				if (player.dataValues.email !== email) {
 					throw new Error('No user with that email');
 				}
-				// const valid = await bcrypt.compare(password, player.password);
-				// if (!valid) {
-				// 	throw new Error('Incorrect password');
-				// }
-				// return web json token
+				const valid = await bcrypt.compare(password, player.password);
+				if (!valid) {
+					throw new Error('Incorrect password');
+				}
 				const token = jsonwebtoken.sign(
 					{ id: player.id, email: player.email },
 					JWT_SECRET,

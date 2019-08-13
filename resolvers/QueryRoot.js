@@ -13,14 +13,20 @@ const QueryRoot = new graphql.GraphQLObjectType({
 		playerById: {
 			type: Player,
 			args: { id: { type: graphql.GraphQLNonNull(graphql.GraphQLInt) } },
-			resolve: async (obj, args, context, info) => {
+			resolve: async (obj, args, { user }, info) => {
+				if (!user) {
+					throw new Error('You are not authenticated!');
+				}
 				const result = await models.Player.findOne({ where: { id: args.id }, include: { model: models.Team } });
 				return result;
 			}
 		},
 		players: {
 			type: new graphql.GraphQLList(Player),
-			resolve: async () => {
+			resolve: async (obj, args, { user }, info) => {
+				if (!user) {
+					throw new Error('You are not authenticated!');
+				}
 				const players = await models.Player.findAll({
 					include: { model: models.Team }
 				});
