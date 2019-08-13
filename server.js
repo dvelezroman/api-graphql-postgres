@@ -1,24 +1,23 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const graphqlHTTP = require('express-graphql');
 const graphql = require('graphql');
+const QueryRoot = require('./resolvers/QueryRoot');
+const MutationRoot = require('./resolvers/MutationRoot');
+
 const db = require('./service/db');
 const seed = require('./models/seed');
+const envs = require('./envs')(); // environment consts
 
-const QueryRoot = new graphql.GraphQLObjectType({
-	name: 'Query',
-	fields: () => ({
-		hello: {
-			type: graphql.GraphQLString,
-			resolve: () => 'Hello World!'
-		}
-	})
+const schema = new graphql.GraphQLSchema({ 
+	query: QueryRoot,
+	mutation: MutationRoot,
 });
-
-const schema = new graphql.GraphQLSchema({ query: QueryRoot });
 
 const app = express();
 app.use(
 	'/api',
+	bodyParser.json(),
 	graphqlHTTP({
 		schema: schema,
 		graphiql: true
@@ -26,5 +25,7 @@ app.use(
 );
 
 db.sync({ force: true })
-	.then(() => app.listen(3000, () => console.log('Listening on PORT 3000')))
+	.then(() => app.listen(envs['PORT'], () => {
+		return console.log(`Listening on PORT ${envs['PORT']}`);
+	}))
 	.then(() => seed());

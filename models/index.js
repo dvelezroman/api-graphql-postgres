@@ -6,8 +6,8 @@ Team.hasMany(Player);
 
 Player.belongsTo(Team);
 
-Team.hasOne(Match, {as: 'HomeTeam', foreignKey : 'homeTeamId'});
-Team.hasOne(Match, {as: 'AwayTeam', foreignKey : 'awayTeamId'});
+Team.hasOne(Match, { as: 'HomeTeam', foreignKey : 'homeTeamId'});
+Team.hasOne(Match, { as: 'AwayTeam', foreignKey : 'awayTeamId'});
 
 module.exports = {
 	Team,

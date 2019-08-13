@@ -7,6 +7,12 @@ const Player = db.define('player', {
 	},
 	last_name: {
 		type: Sequelize.STRING
+	},
+	email: {
+		type: Sequelize.STRING
+	},
+	password: {
+		type: Sequelize.STRING
 	}
 });
 
