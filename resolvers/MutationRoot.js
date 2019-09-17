@@ -9,7 +9,7 @@ const JWT_SECRET = require('../envs')()['JWT_SECRET']; // environment consts JWT
 const MutationRoot = new graphql.GraphQLObjectType({
 	name: 'Mutation',
 	fields: () => ({
-		signup:{
+		signup: {
 			type: new graphql.GraphQLObjectType({
 				name: 'SignUp',
 				fields: () => ({
@@ -24,10 +24,20 @@ const MutationRoot = new graphql.GraphQLObjectType({
 				password: { type: graphql.GraphQLNonNull(graphql.GraphQLString) },
 				teamId: { type: graphql.GraphQLNonNull(graphql.GraphQLInt) }
 			},
-			resolve: async (parent, { email, first_name, last_name, password, teamId}, context, resolveInfo) => {
+			resolve: async (
+				parent,
+				{ email, first_name, last_name, password, teamId },
+				context,
+				resolveInfo
+			) => {
 				const encripted = await bcrypt.hash(password, 10);
 				const team = await models.Team.findByPk(teamId);
-				const player = await models.Player.create({ email, first_name, last_name, password: encripted });
+				const player = await models.Player.create({
+					email,
+					first_name,
+					last_name,
+					password: encripted
+				});
 				player.setTeam(team);
 				return {
 					status: true,
@@ -48,12 +58,16 @@ const MutationRoot = new graphql.GraphQLObjectType({
 				email: { type: graphql.GraphQLNonNull(graphql.GraphQLString) },
 				password: { type: graphql.GraphQLNonNull(graphql.GraphQLString) }
 			},
-			resolve: async (parent, { email, password}, context, resolveInfo) => {
-				const player = await models.Player.findOne({ where: { email }, include: { model: models.Team } });
+			resolve: async (parent, { email, password }, context, resolveInfo) => {
+				const player = await models.Player.findOne({
+					where: { email },
+					include: { model: models.Team }
+				});
 				if (player.dataValues.email !== email) {
 					throw new Error('No user with that email');
 				}
-				const valid = await bcrypt.compare(password, player.password);
+				//const valid = await bcrypt.compare(password, player.password);
+				const valid = password === player.password;
 				if (!valid) {
 					throw new Error('Incorrect password');
 				}
@@ -74,11 +88,19 @@ const MutationRoot = new graphql.GraphQLObjectType({
 			args: {
 				first_name: { type: graphql.GraphQLNonNull(graphql.GraphQLString) },
 				last_name: { type: graphql.GraphQLNonNull(graphql.GraphQLString) },
-				team_id: { type: graphql.GraphQLNonNull(graphql.GraphQLInt) },
+				team_id: { type: graphql.GraphQLNonNull(graphql.GraphQLInt) }
 			},
-			resolve: async (parent, { first_name, last_name, team_id }, context, resolveInfo) => {
+			resolve: async (
+				parent,
+				{ first_name, last_name, team_id },
+				context,
+				resolveInfo
+			) => {
 				const team = await models.Team.findByPk(team_id);
-				const createdPlayer = await models.Player.create({ first_name, last_name });
+				const createdPlayer = await models.Player.create({
+					first_name,
+					last_name
+				});
 				createdPlayer.setTeam(team);
 				return 'Player created succesfully';
 			}

@@ -17,11 +17,17 @@ const auth = jwt({
 	credentialsRequired: false
 });
 
-const schema = new graphql.GraphQLSchema({ 
+const schema = new graphql.GraphQLSchema({
 	query: QueryRoot,
-	mutation: MutationRoot,
+	mutation: MutationRoot
 });
 
+function loggingMiddleware(req, res, next) {
+	console.log(req.params);
+	next();
+}
+
+app.use(loggingMiddleware);
 app.use(
 	'/api',
 	bodyParser.json(),
@@ -38,7 +44,9 @@ app.use(
 );
 
 db.sync({ force: true })
-	.then(() => app.listen(envs['PORT'], () => {
-		return console.log(`Listening on PORT ${envs['PORT']}`);
-	}))
+	.then(() =>
+		app.listen(envs['PORT'], () => {
+			return console.log(`Listening on PORT ${envs['PORT']}`);
+		})
+	)
 	.then(() => seed());

@@ -5,7 +5,7 @@ const players = [
 		detail: {
 			first_name: 'Dario',
 			last_name: 'Velez',
-			email: 'usuario@email.com',
+			email: 'usuario1@email.com',
 			password: 'password'
 		},
 		team: 'Barcelona'
@@ -14,7 +14,7 @@ const players = [
 		detail: {
 			first_name: 'Jose',
 			last_name: 'Velez',
-			email: 'usuario@email.com',
+			email: 'usuario2@email.com',
 			password: 'password'
 		},
 		team: 'Emelec'
@@ -23,7 +23,7 @@ const players = [
 		detail: {
 			first_name: 'Ariel',
 			last_name: 'Holgado',
-			email: 'usuario@email.com',
+			email: 'usuario3@email.com',
 			password: 'password'
 		},
 		team: 'Nacional'
@@ -32,7 +32,7 @@ const players = [
 		detail: {
 			first_name: 'Mariano',
 			last_name: 'Lopez',
-			email: 'usuario@email.com',
+			email: 'usuario4@email.com',
 			password: 'password'
 		},
 		team: 'Aucas'
