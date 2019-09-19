@@ -1,6 +1,8 @@
 const Sequelize = require('sequelize');
+const envs = require('../envs')();
 
-const db = new Sequelize('league', 'puesto1', 'mentaleche2304', {
+const db = new Sequelize(envs.DB_NAME, envs.DB_USERNAME, envs.DB_PASSWORD, {
+	host: envs.DB_HOSTNAME,
 	logging: false,
 	dialect: 'postgres'
 });

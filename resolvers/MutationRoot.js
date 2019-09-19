@@ -1,10 +1,7 @@
 const graphql = require('graphql');
 const bcrypt = require('bcrypt');
-const jsonwebtoken = require('jsonwebtoken');
 const models = require('../models');
 const Player = require('../schemas/Player');
-
-const JWT_SECRET = require('../envs')()['JWT_SECRET']; // environment consts JWT_SECRET
 
 const MutationRoot = new graphql.GraphQLObjectType({
 	name: 'Mutation',
@@ -45,44 +42,6 @@ const MutationRoot = new graphql.GraphQLObjectType({
 				};
 			}
 		},
-		login: {
-			type: new graphql.GraphQLObjectType({
-				name: 'Login',
-				fields: () => ({
-					status: { type: graphql.GraphQLBoolean },
-					player: { type: Player },
-					token: { type: graphql.GraphQLString }
-				})
-			}),
-			args: {
-				email: { type: graphql.GraphQLNonNull(graphql.GraphQLString) },
-				password: { type: graphql.GraphQLNonNull(graphql.GraphQLString) }
-			},
-			resolve: async (parent, { email, password }, context, resolveInfo) => {
-				const player = await models.Player.findOne({
-					where: { email },
-					include: { model: models.Team }
-				});
-				if (player.dataValues.email !== email) {
-					throw new Error('No user with that email');
-				}
-				//const valid = await bcrypt.compare(password, player.password);
-				const valid = password === player.password;
-				if (!valid) {
-					throw new Error('Incorrect password');
-				}
-				const token = jsonwebtoken.sign(
-					{ id: player.id, email: player.email },
-					JWT_SECRET,
-					{ expiresIn: '1d' }
-				);
-				return {
-					status: true,
-					player,
-					token
-				};
-			}
-		},
 		createPlayer: {
 			type: Player,
 			args: {
@@ -90,12 +49,7 @@ const MutationRoot = new graphql.GraphQLObjectType({
 				last_name: { type: graphql.GraphQLNonNull(graphql.GraphQLString) },
 				team_id: { type: graphql.GraphQLNonNull(graphql.GraphQLInt) }
 			},
-			resolve: async (
-				parent,
-				{ first_name, last_name, team_id },
-				context,
-				resolveInfo
-			) => {
+			resolve: async (parent, { first_name, last_name, team_id }, context, resolveInfo) => {
 				const team = await models.Team.findByPk(team_id);
 				const createdPlayer = await models.Player.create({
 					first_name,
