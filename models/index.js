@@ -1,16 +1,21 @@
-const Team = require('./Team');
-const Player = require('./Player');
-const Match = require('./Match');
+const Client = require('./Client');
+const People = require('./People');
+const User = require('./User');
+const Insurance = require('./Insurance');
+const InsuranceType = require('./InsuranceType');
+const Company = require('./Company');
 
-Team.hasMany(Player);
-
-Player.belongsTo(Team);
-
-Team.hasOne(Match, { as: 'HomeTeam', foreignKey : 'homeTeamId'});
-Team.hasOne(Match, { as: 'AwayTeam', foreignKey : 'awayTeamId'});
+Insurance.belongsTo(Client);
+Insurance.belongsTo(InsuranceType);
+Insurance.belongsTo(People);
+Insurance.belongsTo(Company);
+Insurance.belongsTo(User);
 
 module.exports = {
-	Team,
-	Player,
-	Match
+	Client,
+	People,
+	User,
+	Insurance,
+	InsuranceType,
+	Company
 };

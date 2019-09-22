@@ -1,7 +1,10 @@
 const Sequelize = require('sequelize');
 const db = require('../service/db');
 
-const Player = db.define('player', {
+const People = db.define('people', {
+	document: {
+		type: Sequelize.STRING
+	},
 	first_name: {
 		type: Sequelize.STRING
 	},
@@ -11,9 +14,18 @@ const Player = db.define('player', {
 	email: {
 		type: Sequelize.STRING
 	},
-	password: {
+	city: {
 		type: Sequelize.STRING
+	},
+	province: {
+		type: Sequelize.STRING
+	},
+	address: {
+		type: Sequelize.STRING
+	},
+	birthday: {
+		type: Sequelize.DATE
 	}
 });
 
-module.exports = Player;
+module.exports = People;

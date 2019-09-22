@@ -1,110 +1,85 @@
-const { Player, Team, Match } = require('./index');
+const { User, Client, People, InsuranceType, Company } = require('./index');
 
-const players = [
+const users = [
 	{
 		detail: {
+			document: '1310422793',
+			username: 'admin',
 			first_name: 'Dario',
 			last_name: 'Velez',
 			email: 'usuario1@email.com',
 			password: 'password'
-		},
-		team: 'Barcelona'
-	},
-	{
-		detail: {
-			first_name: 'Jose',
-			last_name: 'Velez',
-			email: 'usuario2@email.com',
-			password: 'password'
-		},
-		team: 'Emelec'
-	},
-	{
-		detail: {
-			first_name: 'Ariel',
-			last_name: 'Holgado',
-			email: 'usuario3@email.com',
-			password: 'password'
-		},
-		team: 'Nacional'
-	},
-	{
-		detail: {
-			first_name: 'Mariano',
-			last_name: 'Lopez',
-			email: 'usuario4@email.com',
-			password: 'password'
-		},
-		team: 'Aucas'
-	},
-];
-
-const teams = [
-	{
-		name: 'Emelec'
-	},
-	{
-		name: 'Barcelona'
-	},
-	{
-		name: 'Aucas'
-	},
-	{
-		name: 'Nacional'
+		}
 	}
 ];
 
-const matches = [
+const clients = [
 	{
 		detail: {
-			date: '2019/08/07',
-			result: 'homeTeamId'
-		},
-		homeTeamId: 'Barcelona',
-		awayTeamId: 'Emelec'
+			type: 'Natural',
+			document: '1310422793',
+			address: 'Calle Manta y 3 de Mayo',
+			province: 'Manabí',
+			city: 'Portoviejo'
+		}
+	}
+];
+
+const people = [
+	{
+		detail: {
+			document: '1310422793',
+			first_name: 'Dario',
+			last_name: 'Velez',
+			email: 'dvelezroman@gmail.com',
+			city: 'Portoviejo',
+			province: 'Manabí',
+			address: 'Calle Manta y 3 de Mayo',
+			birthday: '1982/07/23'
+		}
+	}
+];
+
+const companies = [
+	{
+		detail: {
+			name: 'Equinoccial',
+			ref: '1111'
+		}
 	},
 	{
 		detail: {
-			date: '2019/08/07',
-			result: 'awayTeamId'
-		},
-		homeTeamId: 'Barcelona',
-		awayTeamId: 'Emelec'
+			name: 'Sucre',
+			ref: '1122'
+		}
+	}
+];
+
+const insurance_types = [
+	{
+		detail: {
+			name: 'Vehiculos',
+			code: '1101'
+		}
 	},
 	{
 		detail: {
-			date: '2019/08/07',
-			result: 'awayTeamId'
-		},
-		homeTeamId: 'Aucas',
-		awayTeamId: 'Nacional'
+			name: 'Salud',
+			code: '1102'
+		}
 	}
 ];
 
 function seed() {
-	const pTeams = teams.map(team => Team.create(team));
-	Promise.all(pTeams).then(() => {
-		players.map(player =>
-			Team.findOne({
-				where: {
-					name: player.team
-				}
-			}).then(foundTeam =>
-				Player.create(player.detail).then(createdPlayer =>
-					createdPlayer.setTeam(foundTeam)
-				)
-			)
-		);
-	}).then(() => {
-		matches.map(match => Team.findOne({
-			where: { name: match.homeTeamId }
-		}).then(homeTeam => {
-			Team.findOne({ where: { name: match.awayTeamId }}).then(awayTeam => {
-				Match.create({ ...match.detail, homeTeamId: homeTeam.dataValues.id, awayTeamId: awayTeam.dataValues.id }).then(createdMatch => {
-					console.log(`Match ${createdMatch.dataValues.id} = ${homeTeam.dataValues.name} vs ${awayTeam.dataValues.name}`);
-				});
-			});
-		}));
+	const pUser = users.map(user => User.create(user.detail));
+	const pClients = clients.map(client => Client.create(client.detail));
+	const pPeople = people.map(person => People.create(person.detail));
+	const pCompanies = companies.map(company => Company.create(company.detail));
+	const pInsuranceTypes = insurance_types.map(insurance_type =>
+		InsuranceType.create(insurance_type.detail)
+	);
+	Promise.all(pUser, pClients, pPeople, pCompanies, pInsuranceTypes).then(() => {
+		console.log('DataBase Seeded...');
 	});
 }
 
