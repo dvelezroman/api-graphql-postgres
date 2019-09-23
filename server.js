@@ -3,8 +3,8 @@ const bodyParser = require('body-parser');
 const jwt = require('express-jwt');
 const graphqlHTTP = require('express-graphql');
 const graphql = require('graphql');
-const QueryRoot = require('./resolvers/QueryRoot');
 const MutationRoot = require('./resolvers/MutationRoot');
+const QueryRoot = require('./resolvers/QueryRoot');
 
 const db = require('./service/db');
 const seed = require('./models/seed');
@@ -22,21 +22,21 @@ const schema = new graphql.GraphQLSchema({
 	mutation: MutationRoot
 });
 
-function loggingMiddleware(req, res, next) {
-	console.log(req.params);
+const loggingMiddleware = (req, res, next) => {
+	//console.log(req.headers.authorization);
 	next();
-}
+};
 
-app.use(loggingMiddleware);
+//app.use(loggingMiddleware);
 app.use(
 	'/api',
 	bodyParser.json(),
 	auth,
-	graphqlHTTP(req => {
+	graphqlHTTP((request, response, graphQLParams) => {
 		return {
-			schema: schema,
+			schema,
 			context: {
-				user: req.user
+				loggedUser: request.user
 			},
 			graphiql: true
 		};
