@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const jwt = require('express-jwt');
 const graphqlHTTP = require('express-graphql');
@@ -11,6 +12,7 @@ const seed = require('./models/seed');
 const envs = require('./envs')(); // environment consts
 
 const app = express();
+app.use(cors());
 
 const auth = jwt({
 	secret: envs.JWT_SECRET,

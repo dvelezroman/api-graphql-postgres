@@ -6,7 +6,11 @@ const Client = db.define('client', {
 		type: Sequelize.ENUM(['Natural', 'Juridica'])
 	},
 	document: {
-		type: Sequelize.STRING
+		type: Sequelize.STRING,
+		unique: {
+			args: true,
+			msg: 'Document already registered'
+		}
 	},
 	address: {
 		type: Sequelize.STRING

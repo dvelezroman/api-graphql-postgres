@@ -3,7 +3,11 @@ const db = require('../service/db');
 
 const Insurance = db.define('insurance', {
 	ref: {
-		type: Sequelize.STRING
+		type: Sequelize.STRING,
+		unique: {
+			args: true,
+			msg: 'Ref already taken'
+		}
 	},
 	amount: {
 		type: Sequelize.DECIMAL
