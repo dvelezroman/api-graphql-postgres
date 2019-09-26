@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const jwt = require('express-jwt');
 const graphqlHTTP = require('express-graphql');
 const graphql = require('graphql');
@@ -24,10 +25,16 @@ const schema = new graphql.GraphQLSchema({
 	mutation: MutationRoot
 });
 
-const loggingMiddleware = (req, res, next) => {
-	//console.log(req.headers.authorization);
+app.use(cors());
+
+app.use(function(req, res, next) {
+	res.header('Access-Control-Allow-Origin', '*');
+	res.header(
+		'Access-Control-Allow-Headers',
+		'Origin, X-Requested-With, Content-Type, Accept'
+	);
 	next();
-};
+});
 
 //app.use(loggingMiddleware);
 app.use(
