@@ -6,7 +6,11 @@ const Company = db.define('company', {
 		type: Sequelize.STRING
 	},
 	name: {
-		type: Sequelize.STRING
+		type: Sequelize.STRING,
+		unique: {
+			args: true,
+			msg: 'Name already registered'
+		}
 	}
 });
 

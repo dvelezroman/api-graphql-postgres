@@ -12,6 +12,7 @@ const seed = require('./models/seed');
 const envs = require('./envs')(); // environment consts
 
 const app = express();
+app.use(cors());
 
 const auth = jwt({
 	secret: envs.JWT_SECRET,
@@ -27,10 +28,7 @@ app.use(cors());
 
 app.use(function(req, res, next) {
 	res.header('Access-Control-Allow-Origin', '*');
-	res.header(
-		'Access-Control-Allow-Headers',
-		'Origin, X-Requested-With, Content-Type, Accept'
-	);
+	res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
 	next();
 });
 

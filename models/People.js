@@ -3,7 +3,11 @@ const db = require('../service/db');
 
 const People = db.define('people', {
 	document: {
-		type: Sequelize.STRING
+		type: Sequelize.STRING,
+		unique: {
+			args: true,
+			msg: 'Document already registered'
+		}
 	},
 	first_name: {
 		type: Sequelize.STRING
