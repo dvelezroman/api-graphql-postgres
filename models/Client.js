@@ -20,6 +20,9 @@ const Client = db.define('client', {
 	},
 	city: {
 		type: Sequelize.STRING
+	},
+	status: {
+		type: Sequelize.BOOLEAN
 	}
 });
 

@@ -1,11 +1,14 @@
 const graphql = require('graphql');
 const { signUp, login } = require('./auth/userResolver');
+const { newClient, updateClient } = require('./client/clientResolver');
 
 const MutationRoot = new graphql.GraphQLObjectType({
 	name: 'Mutation',
 	fields: () => ({
 		signup: signUp,
-		login: login
+		login: login,
+		newClient: newClient,
+		updateClient: updateClient
 		// createPlayer: {
 		// 	type: Player,
 		// 	args: {
