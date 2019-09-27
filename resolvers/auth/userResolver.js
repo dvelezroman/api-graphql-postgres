@@ -41,9 +41,13 @@ const signUp = {
 				password: encripted
 			});
 			if (user) {
-				const token = jsonwebtoken.sign({ id: user.id, username: user.username }, JWT_SECRET, {
-					expiresIn: '1d'
-				});
+				const token = jsonwebtoken.sign(
+					{ id: user.id, username: user.username },
+					JWT_SECRET,
+					{
+						expiresIn: '1d'
+					}
+				);
 				return {
 					status: true,
 					token,
@@ -90,9 +94,13 @@ const login = {
 				user: null
 			};
 		}
-		const token = jsonwebtoken.sign({ id: user.id, username: user.username }, JWT_SECRET, {
-			expiresIn: '1d'
-		});
+		const token = jsonwebtoken.sign(
+			{ id: user.id, username: user.username },
+			JWT_SECRET,
+			{
+				expiresIn: '1d'
+			}
+		);
 		return {
 			status: true,
 			user,
