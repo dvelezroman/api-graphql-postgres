@@ -1,13 +1,14 @@
 const graphql = require('graphql');
 const models = require('../../models');
-const { Client, InputClient } = require('../../schemas/Client');
+const { Company, InputCompany } = require('../../schemas/Company');
 
-const getClients = {
+const getCompanies = {
+	description: 'Get all Companies',
 	type: new graphql.GraphQLObjectType({
-		name: 'GetClients',
+		name: 'GetCompanies',
 		fields: () => ({
 			status: { type: graphql.GraphQLBoolean },
-			clients: { type: new graphql.GraphQLList(Client) },
+			companies: { type: new graphql.GraphQLList(Company) },
 			msg: { type: graphql.GraphQLString }
 		})
 	}),
@@ -16,136 +17,139 @@ const getClients = {
 			return {
 				status: false,
 				msg: 'You are not authenticated!',
-				clients: []
+				companies: []
 			};
 		}
-		const clients = await models.Client.findAll();
-		if (clients.length) {
+		const companies = await models.Company.findAll();
+		if (companies.length) {
 			return {
 				status: true,
-				clients,
+				companies,
 				msg: 'Okay'
 			};
 		} else {
 			return {
 				status: false,
-				clients,
+				companies,
 				msg: 'No Clients'
 			};
 		}
 	}
 };
 
-const getClient = {
+const getCompany = {
+	description: 'Gets a Company by his Id',
 	type: new graphql.GraphQLObjectType({
-		name: 'GetClient',
+		name: 'GetCompany',
 		fields: () => ({
 			status: { type: graphql.GraphQLBoolean },
-			client: { type: Client },
+			company: { type: Company },
 			msg: { type: graphql.GraphQLString }
 		})
 	}),
 	args: {
-		document: { type: graphql.GraphQLNonNull(graphql.GraphQLString) }
+		id: { type: graphql.GraphQLNonNull(graphql.GraphQLInt) }
 	},
-	resolve: async (parent, { document }, { loggedUser }, resolveInfo) => {
+	resolve: async (parent, { id }, { loggedUser }, resolveInfo) => {
 		if (!loggedUser) {
 			return {
 				status: false,
 				msg: 'You are not authenticated'
 			};
 		}
-		const client = await models.Client.find({ where: { document } });
+		const company = await models.Company.find({ where: { id } });
 		if (client) {
 			return {
 				status: true,
-				client,
+				company,
 				msg: 'Okay'
 			};
 		}
 		return {
 			status: false,
-			client,
+			company,
 			msg: 'No Client Found'
 		};
 	}
 };
 
-const newClient = {
+const newCompany = {
+	description: 'Creates a New Company',
 	type: new graphql.GraphQLObjectType({
-		name: 'NewClient',
+		name: 'NewCompany',
 		fields: () => ({
 			status: { type: graphql.GraphQLBoolean },
-			client: { type: Client },
+			company: { type: Company },
 			msg: { type: graphql.GraphQLString }
 		})
 	}),
 	args: {
-		client: { type: InputClient }
+		company: { type: InputCompany }
 	},
-	resolve: async (parent, { client }, { loggedUser }, resolveInfo) => {
+	resolve: async (parent, { company }, { loggedUser }, resolveInfo) => {
 		if (!loggedUser) {
 			return {
 				status: false,
 				msg: 'You are not authenticated'
 			};
 		}
-		const clientCreated = await models.Client.create(client);
-		if (clientCreated) {
+		const companyCreated = await models.Company.create(company);
+		if (companyCreated) {
 			return {
 				status: true,
-				client: clientCreated,
+				company: companyCreated,
 				msg: 'Okay'
 			};
 		}
 		return {
 			status: false,
-			client: null,
+			company: null,
 			msg: 'No Client Found'
 		};
 	}
 };
 
-const updateClient = {
+const updateCompany = {
+	description: 'Updates a Company',
 	type: new graphql.GraphQLObjectType({
-		name: 'UpdateClient',
+		name: 'UpdateCompany',
 		fields: () => ({
 			status: { type: graphql.GraphQLBoolean },
-			client: { type: Client },
+			company: { type: Company },
 			msg: { type: graphql.GraphQLString }
 		})
 	}),
 	args: {
 		id: { type: graphql.GraphQLInt },
-		client: { type: InputClient }
+		company: { type: InputCompany }
 	},
-	resolve: async (parent, { client, id }, { loggedUser }, resolveInfo) => {
+	resolve: async (parent, { company, id }, { loggedUser }, resolveInfo) => {
 		if (!loggedUser) {
 			return {
 				status: false,
 				msg: 'You are not authenticated'
 			};
 		}
-		const clientUpdated = await models.Client.update({ ...client }, { where: { id } });
+		const companyUpdated = await models.Company.update({ ...company }, { where: { id } });
 		if (clientUpdated) {
 			return {
 				status: true,
-				client: clientUpdated,
-				msg: 'Client Created'
+				company: companyUpdated,
+				msg: 'Company Created'
 			};
 		}
 		return {
 			status: false,
-			client: null,
-			msg: 'No Client Found'
+			company: null,
+			msg: 'Company not Found'
 		};
 	}
 };
 
-const deleteClient = {
+const deleteCompany = {
+	description: 'Deletes a Company',
 	type: new graphql.GraphQLObjectType({
-		name: 'DeleteClient',
-		description: 'Deletes a Client',
+		name: 'DeleteCompany',
 		fields: () => ({
 			status: { type: graphql.GraphQLBoolean },
 			msg: { type: graphql.GraphQLString }
@@ -161,24 +165,24 @@ const deleteClient = {
 				msg: 'You are not authenticated'
 			};
 		}
-		const clientDeleted = await models.Client.destroy({ where: { id } });
-		if (clientDeleted) {
+		const companyDeleted = await models.Company.destroy({ where: { id } });
+		if (companyDeleted) {
 			return {
 				status: true,
-				msg: 'Client Deleted'
+				msg: 'Company Deleted'
 			};
 		}
 		return {
 			status: false,
-			msg: 'Client was not deleted'
+			msg: 'Company was not deleted'
 		};
 	}
 };
 
 module.exports = {
-	getClients,
-	getClient,
-	newClient,
-	updateClient,
-	deleteClient
+	getCompanies,
+	getCompany,
+	newCompany,
+	updateCompany,
+	deleteCompany
 };
