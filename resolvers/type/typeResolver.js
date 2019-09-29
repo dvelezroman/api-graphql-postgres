@@ -1,14 +1,14 @@
 const graphql = require('graphql');
 const models = require('../../models');
-const { Company, InputCompany } = require('../../schemas/Company');
+const { Type, InputType } = require('../../schemas/Type');
 
-const getCompanies = {
-	description: 'Get all Companies',
+const getTypes = {
+	description: 'Get all Insurance Types',
 	type: new graphql.GraphQLObjectType({
-		name: 'GetCompanies',
+		name: 'GetTypes',
 		fields: () => ({
 			status: { type: graphql.GraphQLBoolean },
-			companies: { type: new graphql.GraphQLList(Company) },
+			types: { type: new graphql.GraphQLList(Type) },
 			msg: { type: graphql.GraphQLString }
 		})
 	}),
@@ -17,33 +17,33 @@ const getCompanies = {
 			return {
 				status: false,
 				msg: 'You are not authenticated!',
-				companies: []
+				types: []
 			};
 		}
-		const companies = await models.Company.findAll();
-		if (companies.length) {
+		const types = await models.InsuranceType.findAll();
+		if (types.length) {
 			return {
 				status: true,
-				companies,
+				types,
 				msg: 'Okay'
 			};
 		} else {
 			return {
 				status: false,
-				companies,
-				msg: 'No Clients'
+				types,
+				msg: 'No Insurance Types found'
 			};
 		}
 	}
 };
 
-const getCompany = {
-	description: 'Gets a Company by his Id',
+const getType = {
+	description: 'Gets a Insurance Type',
 	type: new graphql.GraphQLObjectType({
-		name: 'GetCompany',
+		name: 'GetType',
 		fields: () => ({
 			status: { type: graphql.GraphQLBoolean },
-			company: { type: Company },
+			type: { type: Type },
 			msg: { type: graphql.GraphQLString }
 		})
 	}),
@@ -57,99 +57,99 @@ const getCompany = {
 				msg: 'You are not authenticated'
 			};
 		}
-		const company = await models.Company.find({ where: { id } });
+		const type = await models.InsuranceType.find({ where: { id } });
 		if (client) {
 			return {
 				status: true,
-				company,
+				type,
 				msg: 'Okay'
 			};
 		}
 		return {
 			status: false,
-			company,
-			msg: 'No Client Found'
+			type,
+			msg: 'No Insurance Type Found'
 		};
 	}
 };
 
-const newCompany = {
-	description: 'Creates a New Company',
+const newType = {
+	description: 'Creates a New Type',
 	type: new graphql.GraphQLObjectType({
-		name: 'NewCompany',
+		name: 'NewType',
 		fields: () => ({
 			status: { type: graphql.GraphQLBoolean },
-			company: { type: Company },
+			type: { type: Type },
 			msg: { type: graphql.GraphQLString }
 		})
 	}),
 	args: {
-		company: { type: InputCompany }
+		type: { type: InputType }
 	},
-	resolve: async (parent, { company }, { loggedUser }, resolveInfo) => {
+	resolve: async (parent, { type }, { loggedUser }, resolveInfo) => {
 		if (!loggedUser) {
 			return {
 				status: false,
 				msg: 'You are not authenticated'
 			};
 		}
-		const companyCreated = await models.Company.create(company);
-		if (companyCreated) {
+		const typeCreated = await models.InsuranceType.create(type);
+		if (typeCreated) {
 			return {
 				status: true,
-				company: companyCreated,
-				msg: 'Company Found'
+				type: typeCreated,
+				msg: 'Insurance Type Found'
 			};
 		}
 		return {
 			status: false,
-			company: null,
-			msg: 'No Company Found'
+			type: null,
+			msg: 'No Insurance type Found'
 		};
 	}
 };
 
-const updateCompany = {
-	description: 'Updates a Company',
+const updateType = {
+	description: 'Updates a Type',
 	type: new graphql.GraphQLObjectType({
-		name: 'UpdateCompany',
+		name: 'UpdateType',
 		fields: () => ({
 			status: { type: graphql.GraphQLBoolean },
-			company: { type: Company },
+			type: { type: Type },
 			msg: { type: graphql.GraphQLString }
 		})
 	}),
 	args: {
 		id: { type: graphql.GraphQLInt },
-		company: { type: InputCompany }
+		type: { type: InputType }
 	},
-	resolve: async (parent, { company, id }, { loggedUser }, resolveInfo) => {
+	resolve: async (parent, { type, id }, { loggedUser }, resolveInfo) => {
 		if (!loggedUser) {
 			return {
 				status: false,
 				msg: 'You are not authenticated'
 			};
 		}
-		const companyUpdated = await models.Company.update({ ...company }, { where: { id } });
-		if (clientUpdated) {
+		const typeUpdated = await models.InsuranceType.update({ ...type }, { where: { id } });
+		if (typeUpdated) {
 			return {
 				status: true,
-				company: companyUpdated,
-				msg: 'Company Created'
+				type: typeUpdated,
+				msg: 'Insurance Type Created'
 			};
 		}
 		return {
 			status: false,
-			company: null,
-			msg: 'Company not Found'
+			type: null,
+			msg: 'Insurance Type not Found'
 		};
 	}
 };
 
-const deleteCompany = {
-	description: 'Deletes a Company',
+const deleteType = {
+	description: 'Deletes an Insurance Type',
 	type: new graphql.GraphQLObjectType({
-		name: 'DeleteCompany',
+		name: 'DeleteType',
 		fields: () => ({
 			status: { type: graphql.GraphQLBoolean },
 			msg: { type: graphql.GraphQLString }
@@ -165,24 +165,24 @@ const deleteCompany = {
 				msg: 'You are not authenticated'
 			};
 		}
-		const companyDeleted = await models.Company.destroy({ where: { id } });
-		if (companyDeleted) {
+		const typeDeleted = await models.InsuranceType.destroy({ where: { id } });
+		if (typeDeleted) {
 			return {
 				status: true,
-				msg: 'Company Deleted'
+				msg: 'Insurance Type Deleted'
 			};
 		}
 		return {
 			status: false,
-			msg: 'Company was not deleted'
+			msg: 'Insurance type was not deleted'
 		};
 	}
 };
 
 module.exports = {
-	getCompanies,
-	getCompany,
-	newCompany,
-	updateCompany,
-	deleteCompany
+	getTypes,
+	getType,
+	newType,
+	updateType,
+	deleteType
 };

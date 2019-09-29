@@ -2,6 +2,8 @@ const graphql = require('graphql');
 const { getUser } = require('./auth/userResolver');
 const { getClients, getClient } = require('./client/clientResolver');
 const { getCompany, getCompanies } = require('./company/companyResolver');
+const { getPeople, getPerson } = require('./people/peopleResolver');
+const { getTypes, getType } = require('./type/typeResolver');
 
 const QueryRoot = new graphql.GraphQLObjectType({
 	name: 'Query',
@@ -11,7 +13,11 @@ const QueryRoot = new graphql.GraphQLObjectType({
 		clients: getClients,
 		client: getClient,
 		company: getCompany,
-		companies: getCompanies
+		companies: getCompanies,
+		people: getPeople,
+		person: getPerson,
+		type: getType,
+		types: getTypes
 	})
 });
 
