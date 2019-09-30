@@ -81,15 +81,20 @@ const login = {
 		const user = await models.User.findOne({
 			where: { username }
 		});
-		if (user.dataValues.username !== username) {
-			throw new Error('No user with that username');
+		if (!user) {
+			return {
+				status: false,
+				msg: 'No existe Usuario',
+				token: null,
+				user: null
+			};
 		}
 		//const valid = await bcrypt.compare(password, player.password);
 		const valid = password === user.password;
 		if (!valid) {
 			return {
 				status: false,
-				msg: 'Incorrect Password',
+				msg: 'Clave incorrecta',
 				token: null,
 				user: null
 			};
