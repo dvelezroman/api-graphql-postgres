@@ -4,7 +4,9 @@ const envs = require('../envs')();
 const db = new Sequelize(envs.DB_NAME, envs.DB_USERNAME, envs.DB_PASSWORD, {
 	host: envs.DB_HOSTNAME,
 	logging: false,
-	dialect: 'postgres'
+	dialect: 'postgres',
+	ssl: true,
+	port: envs.DB_PORT
 });
 
 module.exports = db;
