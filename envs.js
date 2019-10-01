@@ -7,9 +7,9 @@ const envs = () => {
 			PORT: 3000,
 			JWT_SECRET: 'caffeinasw',
 			DB_NAME: 'seguros',
-			DB_USERNAME: 'postgres',
-			DB_PASSWORD: 'postgres2019',
-			DB_HOSTNAME: '127.0.0.1'
+			DB_USERNAME: 'puesto1',
+			DB_PASSWORD: 'mentaleche2304',
+			DB_HOSTNAME: 'localhost'
 		};
 	} else {
 		return {

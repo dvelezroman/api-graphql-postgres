@@ -28,8 +28,19 @@ app.use(cors());
 
 app.use(function(req, res, next) {
 	res.header('Access-Control-Allow-Origin', '*');
-	res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+	res.header(
+		'Access-Control-Allow-Headers',
+		'Origin, X-Requested-With, Content-Type, Accept'
+	);
 	next();
+});
+
+app.use('/app', function(req, res) {
+	// const indexFilePath = path.resolve(
+	// 	`${__dirname}/../browser/build/index.html`
+	// );
+	// res.sendFile(indexFilePath);
+	res.status(200).json({ msg: 'verga' });
 });
 
 //app.use(loggingMiddleware);
@@ -48,9 +59,10 @@ app.use(
 	})
 );
 
-db.sync({ force: false }).then(() =>
-	app.listen(envs.PORT, () => {
-		return console.log(`Listening on PORT ${envs.PORT}`);
-	})
-);
-//.then(() => seed());
+db.sync({ force: true })
+	.then(() =>
+		app.listen(envs.PORT, () => {
+			return console.log(`Listening on PORT ${envs.PORT}`);
+		})
+	)
+	.then(() => seed());
