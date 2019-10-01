@@ -3,6 +3,7 @@ const node_env = process.env.NODE_ENV || 'development';
 const envs = () => {
 	if (node_env === 'development') {
 		return {
+			ENVIRONMENT: 'development',
 			SERVERURL: 'http://localhost:3000/',
 			PORT: 3000,
 			JWT_SECRET: 'caffeinasw',
@@ -14,7 +15,8 @@ const envs = () => {
 		};
 	} else {
 		return {
-			SERVERURL: 'http://167.99.126.49:3000/',
+			ENVIRONMENT: 'production',
+			SERVERURL: 'http://localhost:3000/',
 			PORT: 3000,
 			JWT_SECRET: 'caffeinasw',
 			DB_NAME: 'seguros',

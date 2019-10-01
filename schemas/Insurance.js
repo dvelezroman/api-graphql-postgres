@@ -21,10 +21,13 @@ const Insurance = new graphql.GraphQLObjectType({
 			type: graphql.GraphQLFloat
 		},
 		from: {
-			type: graphql.GraphQLString
-		},
-		amount: {
-			type: graphql.GraphQLFloat
+			type: new graphql.GraphQLScalarType({
+				name: 'from',
+				serialize(value) {
+					let date = new Date(value);
+					return date.toJSON().split('T')[0];
+				}
+			})
 		},
 		term: {
 			type: graphql.GraphQLString

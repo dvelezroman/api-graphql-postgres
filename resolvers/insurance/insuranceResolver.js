@@ -21,7 +21,13 @@ const getInsurances = {
 			};
 		}
 		const insurances = await models.Insurance.findAll({
-			include: [models.Client, models.Company, models.InsuranceType, models.People, models.User]
+			include: [
+				models.Client,
+				models.Company,
+				models.InsuranceType,
+				models.People,
+				models.User
+			]
 		});
 		if (insurances.length) {
 			return {
@@ -61,7 +67,13 @@ const getInsurance = {
 		}
 		const insurance = await models.Insurance.findOne({
 			where: { id },
-			include: [models.Client, models.Company, models.InsuranceType, models.People, models.User]
+			include: [
+				models.Client,
+				models.Company,
+				models.InsuranceType,
+				models.People,
+				models.User
+			]
 		});
 		if (insurance) {
 			return {
@@ -135,7 +147,10 @@ const updateInsurance = {
 				msg: 'You are not authenticated'
 			};
 		}
-		const insuranceUpdated = await models.Insurance.update({ ...insurance }, { where: { id } });
+		const insuranceUpdated = await models.Insurance.update(
+			{ ...insurance },
+			{ where: { id } }
+		);
 		if (insuranceUpdated) {
 			return {
 				status: true,

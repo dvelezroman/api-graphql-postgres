@@ -22,7 +22,8 @@ const clients = [
 			document: '1310422793',
 			address: 'Calle Manta y 3 de Mayo',
 			province: 'Manabí',
-			city: 'Portoviejo'
+			city: 'Portoviejo',
+			status: true
 		}
 	}
 ];
@@ -80,9 +81,11 @@ function seed() {
 	const pInsuranceTypes = insurance_types.map(insurance_type =>
 		InsuranceType.create(insurance_type.detail)
 	);
-	Promise.all(pUser, pClients, pPeople, pCompanies, pInsuranceTypes).then(() => {
-		console.log('DataBase Seeded...');
-	});
+	Promise.all(pUser, pClients, pPeople, pCompanies, pInsuranceTypes).then(
+		() => {
+			console.log('DataBase Seeded...');
+		}
+	);
 }
 
 module.exports = seed;
