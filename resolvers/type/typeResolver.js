@@ -57,7 +57,7 @@ const getType = {
 				msg: 'You are not authenticated'
 			};
 		}
-		const type = await models.InsuranceType.find({ where: { id } });
+		const type = await models.InsuranceType.findOne({ where: { id } });
 		if (client) {
 			return {
 				status: true,

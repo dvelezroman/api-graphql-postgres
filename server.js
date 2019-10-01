@@ -48,10 +48,9 @@ app.use(
 	})
 );
 
-db.sync({ force: true })
-	.then(() =>
-		app.listen(envs.PORT, () => {
-			return console.log(`Listening on PORT ${envs.PORT}`);
-		})
-	)
-	.then(() => seed());
+db.sync({ force: false }).then(() =>
+	app.listen(envs.PORT, () => {
+		return console.log(`Listening on PORT ${envs.PORT}`);
+	})
+);
+//.then(() => seed());

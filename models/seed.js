@@ -8,7 +8,8 @@ const users = [
 			first_name: 'Dario',
 			last_name: 'Velez',
 			email: 'usuario1@email.com',
-			password: 'password'
+			password: 'password',
+			role: 'admin'
 		}
 	}
 ];
@@ -17,6 +18,7 @@ const clients = [
 	{
 		detail: {
 			type: 'Natural',
+			name: 'CaffeinaSW S.A.',
 			document: '1310422793',
 			address: 'Calle Manta y 3 de Mayo',
 			province: 'Manabí',

@@ -6,7 +6,11 @@ const InsuranceType = db.define('insurance_type', {
 		type: Sequelize.STRING
 	},
 	code: {
-		type: Sequelize.STRING
+		type: Sequelize.STRING,
+		unique: {
+			args: true,
+			msg: 'Code already registered'
+		}
 	}
 });
 

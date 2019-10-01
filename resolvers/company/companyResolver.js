@@ -57,7 +57,7 @@ const getCompany = {
 				msg: 'You are not authenticated'
 			};
 		}
-		const company = await models.Company.find({ where: { id } });
+		const company = await models.Company.findOne({ where: { id } });
 		if (client) {
 			return {
 				status: true,

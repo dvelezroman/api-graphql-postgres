@@ -4,6 +4,7 @@ const { newClient, updateClient, deleteClient } = require('./client/clientResolv
 const { newCompany, updateCompany, deleteCompany } = require('./company/companyResolver');
 const { newPerson, updatePerson, deletePerson } = require('./people/peopleResolver');
 const { newType, updateType, deleteType } = require('./type/typeResolver');
+const { newInsurance, updateInsurance, deleteInsurance } = require('./insurance/insuranceResolver');
 
 const MutationRoot = new graphql.GraphQLObjectType({
 	name: 'Mutation',
@@ -21,7 +22,10 @@ const MutationRoot = new graphql.GraphQLObjectType({
 		deletePerson: deletePerson,
 		newType: newType,
 		updateType: updateType,
-		deleteType: deleteType
+		deleteType: deleteType,
+		newInsurance: newInsurance,
+		updateInsurance: updateInsurance,
+		deleteInsurance: deleteInsurance
 	})
 });
 

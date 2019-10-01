@@ -55,7 +55,7 @@ const getClient = {
 				msg: 'You are not authenticated'
 			};
 		}
-		const client = await models.Client.find({ where: { document } });
+		const client = await models.Client.findOne({ where: { document } });
 		if (client) {
 			return {
 				status: true,

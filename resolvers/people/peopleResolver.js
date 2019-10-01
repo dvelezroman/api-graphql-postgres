@@ -57,7 +57,7 @@ const getPerson = {
 				msg: 'You are not authenticated'
 			};
 		}
-		const person = await models.People.find({ where: { id } });
+		const person = await models.People.findOne({ where: { id } });
 		if (client) {
 			return {
 				status: true,

@@ -9,6 +9,9 @@ const Client = new graphql.GraphQLObjectType({
 		type: {
 			type: graphql.GraphQLString
 		},
+		name: {
+			type: graphql.GraphQLString
+		},
 		document: {
 			type: graphql.GraphQLString
 		},
@@ -39,6 +42,9 @@ const InputClient = new graphql.GraphQLInputObjectType({
 			type: graphql.GraphQLString
 		},
 		document: {
+			type: graphql.GraphQLString
+		},
+		name: {
 			type: graphql.GraphQLString
 		},
 		address: {

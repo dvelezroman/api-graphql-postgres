@@ -12,6 +12,9 @@ const Client = db.define('client', {
 			msg: 'Document already registered'
 		}
 	},
+	name: {
+		type: Sequelize.STRING
+	},
 	address: {
 		type: Sequelize.STRING
 	},
