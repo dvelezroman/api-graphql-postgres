@@ -70,9 +70,6 @@ const InputInsurance = new graphql.GraphQLInputObjectType({
 		from: {
 			type: graphql.GraphQLString
 		},
-		amount: {
-			type: graphql.GraphQLFloat
-		},
 		term: {
 			type: graphql.GraphQLString
 		},

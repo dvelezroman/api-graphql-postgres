@@ -95,10 +95,11 @@ const newType = {
 		}
 		const typeCreated = await models.InsuranceType.create(type);
 		if (typeCreated) {
+			console.log(typeCreated);
 			return {
 				status: true,
 				type: typeCreated,
-				msg: 'Insurance Type Found'
+				msg: 'Insurance Type Created'
 			};
 		}
 		return {
@@ -130,7 +131,10 @@ const updateType = {
 				msg: 'You are not authenticated'
 			};
 		}
-		const typeUpdated = await models.InsuranceType.update({ ...type }, { where: { id } });
+		const typeUpdated = await models.InsuranceType.update(
+			{ ...type },
+			{ where: { id } }
+		);
 		if (typeUpdated) {
 			return {
 				status: true,
