@@ -1,29 +1,30 @@
 {
-  "name": "graphql_api",
-  "version": "0.0.1",
-  "description": "API with GraphQL",
-  "main": "server.js",
-  "scripts": {
-    "start": "nodemon server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Dario Velez",
-  "license": "ISC",
-  "dependencies": {
-    "bcrypt": "^3.0.6",
-    "body-parser": "^1.19.0",
-    "cors": "^2.8.5",
-    "express": "^4.17.1",
-    "express-graphql": "^0.9.0",
-    "express-jwt": "^5.3.1",
-    "graphql": "^14.4.2",
-    "jsonwebtoken": "^8.5.1",
-    "pg": "^7.12.0",
-    "pg-hstore": "^2.3.3",
-    "sequelize": "^5.18.4"
-  },
-  "devDependencies": {
-    "eslint": "^6.1.0",
-    "nodemon": "^1.19.1"
-  }
+	"name": "graphql_api",
+	"version": "0.0.1",
+	"description": "API with GraphQL",
+	"main": "server.js",
+	"scripts": {
+		"start": "NODE_ENV=development nodemon server.js",
+		"prod": "NODE_ENV=production nodemon server.js",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "Dario Velez",
+	"license": "ISC",
+	"dependencies": {
+		"bcrypt": "^3.0.6",
+		"body-parser": "^1.19.0",
+		"cors": "^2.8.5",
+		"express": "^4.17.1",
+		"express-graphql": "^0.9.0",
+		"express-jwt": "^5.3.1",
+		"graphql": "^14.4.2",
+		"jsonwebtoken": "^8.5.1",
+		"pg": "^7.12.0",
+		"pg-hstore": "^2.3.3",
+		"sequelize": "^5.18.4"
+	},
+	"devDependencies": {
+		"eslint": "^6.1.0",
+		"nodemon": "^1.19.1"
+	}
 }
