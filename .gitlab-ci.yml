@@ -8,27 +8,22 @@ stages:
 before_script:
     - npm install
 
-build-min-code:
+build-code:
     stage: build
     script:
         - npm install
-        - npm run minifier
-        
-run-unit-test:
-    stage: test
-    script:
-        - npm run test
+        - npm run build
         
 deploy-staging:
     stage: deploy
     script:
-        - npm run deploy-stage
+        - npm start
     only:
         - develop
         
 deploy-production:
     stage: deploy
     script:
-        - npm run deploy-prod
+        - npm run prod
     only:
         - release
