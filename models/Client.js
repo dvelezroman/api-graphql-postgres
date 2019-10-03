@@ -3,7 +3,7 @@ const db = require('../service/db');
 
 const Client = db.define('client', {
 	type: {
-		type: Sequelize.ENUM(['Natural', 'Juridica'])
+		type: Sequelize.STRING
 	},
 	document: {
 		type: Sequelize.STRING,
