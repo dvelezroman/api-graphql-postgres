@@ -46,6 +46,9 @@ const Insurance = new graphql.GraphQLObjectType({
 		},
 		user: {
 			type: User
+		},
+		comment: {
+			type: graphql.GraphQLString
 		}
 	})
 });
@@ -70,6 +73,9 @@ const InputInsurance = new graphql.GraphQLInputObjectType({
 		from: {
 			type: graphql.GraphQLString
 		},
+		to: {
+			type: graphql.GraphQLString
+		},
 		term: {
 			type: graphql.GraphQLString
 		},
@@ -87,6 +93,9 @@ const InputInsurance = new graphql.GraphQLInputObjectType({
 		},
 		userId: {
 			type: graphql.GraphQLInt
+		},
+		comment: {
+			type: graphql.GraphQLString
 		}
 	})
 });

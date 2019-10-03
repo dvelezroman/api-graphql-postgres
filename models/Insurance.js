@@ -18,7 +18,13 @@ const Insurance = db.define('insurance', {
 	from: {
 		type: Sequelize.DATE
 	},
+	to: {
+		type: Sequelize.DATE
+	},
 	term: {
+		type: Sequelize.STRING
+	},
+	comment: {
 		type: Sequelize.STRING
 	}
 });

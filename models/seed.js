@@ -8,7 +8,7 @@ const users = [
 			first_name: 'Dario',
 			last_name: 'Velez',
 			email: 'usuario1@email.com',
-			password: 'password',
+			password: 'Seguros2019@',
 			role: 'admin'
 		}
 	}
