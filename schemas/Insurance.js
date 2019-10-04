@@ -29,6 +29,15 @@ const Insurance = new graphql.GraphQLObjectType({
 				}
 			})
 		},
+		to: {
+			type: new graphql.GraphQLScalarType({
+				name: 'to',
+				serialize(value) {
+					let date = new Date(value);
+					return date.toJSON().split('T')[0];
+				}
+			})
+		},
 		term: {
 			type: graphql.GraphQLString
 		},

@@ -22,7 +22,8 @@ const envs = () => {
 			DB_NAME: 'seguros',
 			DB_USERNAME: 'doadmin',
 			DB_PASSWORD: 'i9wo9refuagzdbud',
-			DB_HOSTNAME: 'db-postgresql-nyc1-68324-do-user-6604645-0.db.ondigitalocean.com',
+			DB_HOSTNAME:
+				'db-postgresql-nyc1-68324-do-user-6604645-0.db.ondigitalocean.com',
 			DB_PORT: 25060,
 			sslmode: require
 		};
