@@ -1,6 +1,16 @@
 const graphql = require('graphql');
 const models = require('../../models');
+const Mailer = require('../../service/mailer');
 const { Insurance, InputInsurance } = require('../../schemas/Insurance');
+const welcomeLayout = require('../../assets/welcomeLayout');
+
+const MailerService = new Mailer(
+	'smtp.googlemail.com',
+	465,
+	true,
+	{ user: 'caffeinasw', pass: 'telurico1604' },
+	'Compañia de Seguros'
+);
 
 const getInsurances = {
 	description: 'Get Insurances',
@@ -21,13 +31,7 @@ const getInsurances = {
 			};
 		}
 		const insurances = await models.Insurance.findAll({
-			include: [
-				models.Client,
-				models.Company,
-				models.InsuranceType,
-				models.People,
-				models.User
-			]
+			include: [models.Client, models.Company, models.InsuranceType, models.People, models.User]
 		});
 		if (insurances.length) {
 			return {
@@ -67,13 +71,7 @@ const getInsurance = {
 		}
 		const insurance = await models.Insurance.findOne({
 			where: { id },
-			include: [
-				models.Client,
-				models.Company,
-				models.InsuranceType,
-				models.People,
-				models.User
-			]
+			include: [models.Client, models.Company, models.InsuranceType, models.People, models.User]
 		});
 		if (insurance) {
 			return {
@@ -111,7 +109,11 @@ const newInsurance = {
 			};
 		}
 		const insuranceCreated = await models.Insurance.create(insurance);
+		const person = await models.People.findOne({ where: { id: insurance.personId } });
 		if (insuranceCreated) {
+			const mailToSend = welcomeLayout(person, insurance);
+			//console.log(insurance);
+			MailerService.sendWelcomeMail(person.email, 'Bienvenido a SEGUMUNDO', mailToSend);
 			return {
 				status: true,
 				insurance: insuranceCreated,
@@ -147,10 +149,7 @@ const updateInsurance = {
 				msg: 'You are not authenticated'
 			};
 		}
-		const insuranceUpdated = await models.Insurance.update(
-			{ ...insurance },
-			{ where: { id } }
-		);
+		const insuranceUpdated = await models.Insurance.update({ ...insurance }, { where: { id } });
 		if (insuranceUpdated) {
 			return {
 				status: true,
