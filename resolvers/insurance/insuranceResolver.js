@@ -99,9 +99,11 @@ const newInsurance = {
 		})
 	}),
 	args: {
+		sendWelcomeMail: { type: graphql.GraphQLBoolean },
 		insurance: { type: InputInsurance }
 	},
-	resolve: async (parent, { insurance }, { loggedUser }, resolveInfo) => {
+	resolve: async (parent, { sendWelcomeMail, insurance }, { loggedUser }, resolveInfo) => {
+		//console.info(JSON.stringify(insurance));
 		if (!loggedUser) {
 			return {
 				status: false,
@@ -109,11 +111,12 @@ const newInsurance = {
 			};
 		}
 		const insuranceCreated = await models.Insurance.create(insurance);
-		const person = await models.People.findOne({ where: { id: insurance.personId } });
 		if (insuranceCreated) {
-			const mailToSend = welcomeLayout(person, insurance);
-			//console.log(insurance);
-			MailerService.sendWelcomeMail(person.email, 'Bienvenido a SEGUMUNDO', mailToSend);
+			if (sendWelcomeMail) {
+				const person = await models.People.findOne({ where: { id: insurance.personId } });
+				const mailToSend = welcomeLayout(person, insurance);
+				MailerService.sendWelcomeMail(person.email, 'Bienvenido a SEGUMUNDO', mailToSend);
+			}
 			return {
 				status: true,
 				insurance: insuranceCreated,
