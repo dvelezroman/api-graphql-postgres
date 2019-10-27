@@ -4,13 +4,7 @@ const Mailer = require('../../service/mailer');
 const { Insurance, InputInsurance } = require('../../schemas/Insurance');
 const welcomeLayout = require('../../assets/welcomeLayout');
 
-const MailerService = new Mailer(
-	'smtp.googlemail.com',
-	465,
-	true,
-	{ user: 'caffeinasw', pass: 'telurico1604' },
-	'Compañia de Seguros'
-);
+const MailerService = new Mailer();
 
 const getInsurances = {
 	description: 'Get Insurances',
@@ -112,15 +106,30 @@ const newInsurance = {
 		}
 		const insuranceCreated = await models.Insurance.create(insurance);
 		if (insuranceCreated) {
-			if (sendWelcomeMail) {
+			console.log('Enviar Correo');
+			const mailConfig = await models.Config.findOne({ where: { id: 1 } });
+			let msg = 'Insurance Created without welcome mail sent.';
+			if (mailConfig.welcome) {
+				MailerService.setParameters(
+					mailConfig.mailserver,
+					mailConfig.mailport,
+					true,
+					{
+						user: mailConfig.mailuser,
+						pass: mailConfig.mailpassword
+					},
+					'SEGUMUNDO'
+				);
 				const person = await models.People.findOne({ where: { id: insurance.personId } });
 				const mailToSend = welcomeLayout(person, insurance);
 				MailerService.sendWelcomeMail(person.email, 'Bienvenido a SEGUMUNDO', mailToSend);
+				msg = 'Insurance Created and a welcome mail was sent.';
 			}
 			return {
 				status: true,
 				insurance: insuranceCreated,
-				msg: 'Insurance Created'
+				welcomeMail: mailConfig.welcome,
+				msg
 			};
 		}
 		return {

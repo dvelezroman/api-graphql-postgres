@@ -1,4 +1,4 @@
-const { User, Client, People, InsuranceType, Company } = require('./index');
+const { User, Client, People, InsuranceType, Company, Config } = require('./index');
 
 const users = [
 	{
@@ -73,7 +73,22 @@ const insurance_types = [
 	}
 ];
 
+const configs = [
+	{
+		detail: {
+			mailserver: 'smtp.googlemail.com',
+			mailuser: 'caffeinasw@gmail.com',
+			mailpassword: 'telurico1604',
+			mailport: 465,
+			welcome: false,
+			birthday: false,
+			renewal: false
+		}
+	}
+];
+
 function seed() {
+	const pConfig = configs.map(config => Config.create(config.detail));
 	const pUser = users.map(user => User.create(user.detail));
 	const pClients = clients.map(client => Client.create(client.detail));
 	const pPeople = people.map(person => People.create(person.detail));
@@ -81,11 +96,9 @@ function seed() {
 	const pInsuranceTypes = insurance_types.map(insurance_type =>
 		InsuranceType.create(insurance_type.detail)
 	);
-	Promise.all(pUser, pClients, pPeople, pCompanies, pInsuranceTypes).then(
-		() => {
-			console.log('DataBase Seeded...');
-		}
-	);
+	Promise.all(pConfig, pUser, pClients, pPeople, pCompanies, pInsuranceTypes).then(() => {
+		console.log('DataBase Seeded...');
+	});
 }
 
 module.exports = seed;

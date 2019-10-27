@@ -1,14 +1,13 @@
 const nodemailer = require('nodemailer');
 
 class Mailer {
-	constructor(host, port = 465, secure = true, auth, from = 'Nombre Compañía') {
-		this.host = host;
-		this.port = port;
-		this.secure = secure;
-		this.auth = auth;
-		this.from = from;
+	constructor() {
+		this.host = null;
+		this.port = null;
+		this.secure = null;
+		this.auth = null;
+		this.from = null;
 		this.transporter = null;
-		this.setTransporter();
 	}
 
 	setTransporter() {
@@ -18,6 +17,15 @@ class Mailer {
 			secure: this.secure,
 			auth: this.auth
 		});
+	}
+
+	setParameters(host, port, secure = true, auth, from) {
+		this.host = host;
+		this.port = port;
+		this.secure = secure;
+		this.auth = auth;
+		this.from = from;
+		this.setTransporter();
 	}
 
 	sendWelcomeMail(to, subject = 'Correo de Bienvenida', html) {

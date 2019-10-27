@@ -1,14 +1,14 @@
 const graphql = require('graphql');
 const models = require('../../models');
-const { Company, InputCompany } = require('../../schemas/Company');
+const { Config, InputConfig } = require('../../schemas/Config');
 
-const getCompanies = {
-	description: 'Get all Companies',
+const getConfigs = {
+	description: 'Get all Configs',
 	type: new graphql.GraphQLObjectType({
-		name: 'GetCompanies',
+		name: 'GetConfigs',
 		fields: () => ({
 			status: { type: graphql.GraphQLBoolean },
-			companies: { type: new graphql.GraphQLList(Company) },
+			configs: { type: new graphql.GraphQLList(Config) },
 			msg: { type: graphql.GraphQLString }
 		})
 	}),
@@ -17,33 +17,33 @@ const getCompanies = {
 			return {
 				status: false,
 				msg: 'You are not authenticated!',
-				companies: []
+				Configs: []
 			};
 		}
-		const companies = await models.Company.findAll();
-		if (companies.length) {
+		const configs = await models.Config.findAll();
+		if (configs.length) {
 			return {
 				status: true,
-				companies,
+				configs,
 				msg: 'Okay'
 			};
 		} else {
 			return {
 				status: false,
-				companies,
-				msg: 'No Clients'
+				configs: [],
+				msg: 'No Configs'
 			};
 		}
 	}
 };
 
-const getCompany = {
-	description: 'Gets a Company by his Id',
+const getConfig = {
+	description: 'Gets a Config by his Id',
 	type: new graphql.GraphQLObjectType({
-		name: 'GetCompany',
+		name: 'GetConfig',
 		fields: () => ({
 			status: { type: graphql.GraphQLBoolean },
-			company: { type: Company },
+			config: { type: Config },
 			msg: { type: graphql.GraphQLString }
 		})
 	}),
@@ -57,99 +57,99 @@ const getCompany = {
 				msg: 'You are not authenticated'
 			};
 		}
-		const company = await models.Company.findOne({ where: { id } });
+		const config = await models.Config.findOne({ where: { id } });
 		if (client) {
 			return {
 				status: true,
-				company,
+				config,
 				msg: 'Okay'
 			};
 		}
 		return {
 			status: false,
-			company,
-			msg: 'No Client Found'
+			config: null,
+			msg: 'No Config Found'
 		};
 	}
 };
 
-const newCompany = {
-	description: 'Creates a New Company',
+const newConfig = {
+	description: 'Creates a New Config',
 	type: new graphql.GraphQLObjectType({
-		name: 'NewCompany',
+		name: 'NewConfig',
 		fields: () => ({
 			status: { type: graphql.GraphQLBoolean },
-			company: { type: Company },
+			config: { type: Config },
 			msg: { type: graphql.GraphQLString }
 		})
 	}),
 	args: {
-		company: { type: InputCompany }
+		config: { type: InputConfig }
 	},
-	resolve: async (parent, { company }, { loggedUser }, resolveInfo) => {
+	resolve: async (parent, { config }, { loggedUser }, resolveInfo) => {
 		if (!loggedUser) {
 			return {
 				status: false,
 				msg: 'You are not authenticated'
 			};
 		}
-		const companyCreated = await models.Company.create(company);
-		if (companyCreated) {
+		const configCreated = await models.Config.create(config);
+		if (configCreated) {
 			return {
 				status: true,
-				company: companyCreated,
-				msg: 'Company Found'
+				config: configCreated,
+				msg: 'Config Created'
 			};
 		}
 		return {
 			status: false,
-			company: null,
-			msg: 'No Company Found'
+			config: null,
+			msg: 'No Config Created'
 		};
 	}
 };
 
-const updateCompany = {
-	description: 'Updates a Company',
+const updateConfig = {
+	description: 'Updates a Config',
 	type: new graphql.GraphQLObjectType({
-		name: 'UpdateCompany',
+		name: 'UpdateConfig',
 		fields: () => ({
 			status: { type: graphql.GraphQLBoolean },
-			company: { type: Company },
+			config: { type: Config },
 			msg: { type: graphql.GraphQLString }
 		})
 	}),
 	args: {
 		id: { type: graphql.GraphQLInt },
-		company: { type: InputCompany }
+		config: { type: InputConfig }
 	},
-	resolve: async (parent, { company, id }, { loggedUser }, resolveInfo) => {
+	resolve: async (parent, { config, id }, { loggedUser }, resolveInfo) => {
 		if (!loggedUser) {
 			return {
 				status: false,
 				msg: 'You are not authenticated'
 			};
 		}
-		const companyUpdated = await models.Company.update({ ...company }, { where: { id } });
-		if (companyUpdated) {
+		const configUpdated = await models.Config.update({ ...config }, { where: { id } });
+		if (configUpdated) {
 			return {
 				status: true,
-				company: companyUpdated,
-				msg: 'Company Created'
+				config: configUpdated,
+				msg: 'Config Updated'
 			};
 		}
 		return {
 			status: false,
-			company: null,
-			msg: 'Company not Found'
+			config: null,
+			msg: 'Config not Found'
 		};
 	}
 };
 
-const deleteCompany = {
-	description: 'Deletes a Company',
+const deleteConfig = {
+	description: 'Deletes a Config',
 	type: new graphql.GraphQLObjectType({
-		name: 'DeleteCompany',
+		name: 'DeleteConfig',
 		fields: () => ({
 			status: { type: graphql.GraphQLBoolean },
 			msg: { type: graphql.GraphQLString }
@@ -165,24 +165,24 @@ const deleteCompany = {
 				msg: 'You are not authenticated'
 			};
 		}
-		const companyDeleted = await models.Company.destroy({ where: { id } });
-		if (companyDeleted) {
+		const configDeleted = await models.Config.destroy({ where: { id } });
+		if (configDeleted) {
 			return {
 				status: true,
-				msg: 'Company Deleted'
+				msg: 'Config Deleted'
 			};
 		}
 		return {
 			status: false,
-			msg: 'Company was not deleted'
+			msg: 'Config was not deleted'
 		};
 	}
 };
 
 module.exports = {
-	getCompanies,
-	getCompany,
-	newCompany,
-	updateCompany,
-	deleteCompany
+	getConfigs,
+	getConfig,
+	newConfig,
+	updateConfig,
+	deleteConfig
 };
