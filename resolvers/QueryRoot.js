@@ -1,5 +1,5 @@
 const graphql = require('graphql');
-const { getUser } = require('./auth/userResolver');
+const { getUser, getUsers } = require('./auth/userResolver');
 const { getClients, getClient } = require('./client/clientResolver');
 const { getCompany, getCompanies } = require('./company/companyResolver');
 const { getPeople, getPerson } = require('./people/peopleResolver');
@@ -12,6 +12,7 @@ const QueryRoot = new graphql.GraphQLObjectType({
 	description: 'Querys for get information from schemas',
 	fields: () => ({
 		user: getUser,
+		users: getUsers,
 		clients: getClients,
 		client: getClient,
 		company: getCompany,

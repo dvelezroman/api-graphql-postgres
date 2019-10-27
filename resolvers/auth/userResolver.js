@@ -41,13 +41,9 @@ const signUp = {
 				password: encripted
 			});
 			if (user) {
-				const token = jsonwebtoken.sign(
-					{ id: user.id, username: user.username },
-					JWT_SECRET,
-					{
-						expiresIn: '1d'
-					}
-				);
+				const token = jsonwebtoken.sign({ id: user.id, username: user.username }, JWT_SECRET, {
+					expiresIn: '1d'
+				});
 				return {
 					status: true,
 					token,
@@ -99,19 +95,42 @@ const login = {
 				user: null
 			};
 		}
-		const token = jsonwebtoken.sign(
-			{ id: user.id, username: user.username },
-			JWT_SECRET,
-			{
-				expiresIn: '1d'
-			}
-		);
+		const token = jsonwebtoken.sign({ id: user.id, username: user.username }, JWT_SECRET, {
+			expiresIn: '1d'
+		});
 		return {
 			status: true,
 			user,
 			token,
 			msg: 'Login Successful'
 		};
+	}
+};
+
+const getUsers = {
+	type: new graphql.GraphQLObjectType({
+		name: 'GetUsers',
+		fields: () => ({
+			status: { type: graphql.GraphQLBoolean },
+			users: { type: new graphql.GraphQLList(User) },
+			msg: { type: graphql.GraphQLString }
+		})
+	}),
+	resolve: async (parent, args, { loggedUser }, resolveInfo) => {
+		const users = await models.User.findAll({});
+		if (users.length) {
+			return {
+				status: true,
+				users,
+				msg: 'Users found.'
+			};
+		} else {
+			return {
+				status: false,
+				users: [],
+				msg: 'Users not found!'
+			};
+		}
 	}
 };
 
@@ -156,5 +175,6 @@ const getUser = {
 module.exports = {
 	signUp,
 	login,
-	getUser
+	getUser,
+	getUsers
 };
