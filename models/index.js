@@ -5,6 +5,7 @@ const Insurance = require('./Insurance');
 const InsuranceType = require('./InsuranceType');
 const Company = require('./Company');
 const Config = require('./Config');
+const Office = require('./Office');
 
 Insurance.belongsTo(Client);
 Insurance.belongsTo(InsuranceType);
@@ -19,5 +20,6 @@ module.exports = {
 	Insurance,
 	InsuranceType,
 	Company,
-	Config
+	Config,
+	Office
 };
