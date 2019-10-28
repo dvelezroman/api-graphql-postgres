@@ -85,8 +85,8 @@ const login = {
 				user: null
 			};
 		}
-		//const valid = await bcrypt.compare(password, player.password);
-		const valid = password === user.password;
+		const valid = await bcrypt.compare(password, user.password);
+		// const valid = password === user.password;
 		if (!valid) {
 			return {
 				status: false,

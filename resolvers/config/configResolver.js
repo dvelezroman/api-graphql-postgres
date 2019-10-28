@@ -87,12 +87,12 @@ const newConfig = {
 		config: { type: InputConfig }
 	},
 	resolve: async (parent, { config }, { loggedUser }, resolveInfo) => {
-		if (!loggedUser) {
-			return {
-				status: false,
-				msg: 'You are not authenticated'
-			};
-		}
+		// if (!loggedUser) {
+		// 	return {
+		// 		status: false,
+		// 		msg: 'You are not authenticated'
+		// 	};
+		// }
 		const configCreated = await models.Config.create(config);
 		if (configCreated) {
 			return {
