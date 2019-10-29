@@ -1,4 +1,6 @@
 const express = require('express');
+const multer = require('multer');
+const fs = require('fs');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const jwt = require('express-jwt');
@@ -12,6 +14,8 @@ const seed = require('./models/seed');
 const envs = require('./envs')(); // environment consts
 
 const app = express();
+
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
 const auth = jwt({
@@ -24,7 +28,7 @@ const schema = new graphql.GraphQLSchema({
 	mutation: MutationRoot
 });
 
-app.use(cors());
+// app.use(cors());
 
 app.use(function(req, res, next) {
 	res.header('Access-Control-Allow-Origin', '*');
@@ -55,6 +59,31 @@ app.use(
 		};
 	})
 );
+
+// SET STORAGE
+let storage = multer.diskStorage({
+	destination: (req, file, cb) => {
+		cb(null, './uploads');
+	},
+	filename: (req, file, cb) => {
+		cb(
+			null,
+			file.fieldname + '.' + file.originalname.split('.')[file.originalname.split('.').length - 1]
+		);
+	}
+});
+
+let upload = multer({ storage: storage });
+
+app.post('/image-upload', upload.single('logo'), (req, res, next) => {
+	const file = req.body;
+	if (!file) {
+		const error = new Error('Please upload a File');
+		error.httpStatusCode = 400;
+		return next(error);
+	}
+	res.status(200).json({ status: true, msg: 'Uploaded' });
+});
 
 db.sync({ force: true }).then(() =>
 	app.listen(envs.PORT, () => {
