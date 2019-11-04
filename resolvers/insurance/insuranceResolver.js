@@ -38,7 +38,6 @@ const getInsurances = {
 				models.User
 			]
 		});
-		console.log(JSON.stringify(insurances));
 		if (insurances.length) {
 			return {
 				status: true,
