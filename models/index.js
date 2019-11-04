@@ -7,6 +7,7 @@ const Company = require('./Company');
 const Config = require('./Config');
 const Office = require('./Office');
 
+Client.belongsTo(People);
 Insurance.belongsTo(Client);
 Insurance.belongsTo(InsuranceType);
 Insurance.belongsTo(People);

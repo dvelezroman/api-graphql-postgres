@@ -19,7 +19,7 @@ const getClients = {
 				clients: []
 			};
 		}
-		const clients = await models.Client.findAll();
+		const clients = await models.Client.findAll({ include: [{ all: true }] });
 		if (clients.length) {
 			return {
 				status: true,

@@ -1,4 +1,5 @@
 const graphql = require('graphql');
+const { Person } = require('../schemas/Person');
 
 const Client = new graphql.GraphQLObjectType({
 	name: 'Client',
@@ -26,6 +27,9 @@ const Client = new graphql.GraphQLObjectType({
 		},
 		status: {
 			type: graphql.GraphQLBoolean
+		},
+		personId: {
+			type: graphql.GraphQLInt
 		}
 	})
 });
@@ -58,6 +62,9 @@ const InputClient = new graphql.GraphQLInputObjectType({
 		},
 		status: {
 			type: graphql.GraphQLBoolean
+		},
+		personId: {
+			type: graphql.GraphQLInt
 		}
 	})
 });

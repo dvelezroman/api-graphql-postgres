@@ -94,6 +94,7 @@ const newPerson = {
 			};
 		}
 		const personCreated = await models.People.create(person);
+
 		if (personCreated) {
 			return {
 				status: true,
@@ -130,7 +131,7 @@ const updatePerson = {
 				msg: 'You are not authenticated'
 			};
 		}
-		const personUpdated = await models.Person.update({ ...person }, { where: { id } });
+		const personUpdated = await models.People.update({ ...person }, { where: { id } });
 		if (personUpdated) {
 			return {
 				status: true,

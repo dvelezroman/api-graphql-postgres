@@ -85,9 +85,10 @@ app.post('/image-upload', upload.single('logo'), (req, res, next) => {
 	res.status(200).json({ status: true, msg: 'Uploaded' });
 });
 
-db.sync({ force: true }).then(() =>
-	app.listen(envs.PORT, () => {
-		return console.log(`Server mode: ${envs.ENVIRONMENT}, listening on PORT ${envs.PORT}`);
-	})
-);
-//.then(() => seed());
+db.sync({ force: true })
+	.then(() =>
+		app.listen(envs.PORT, () => {
+			return console.log(`Server mode: ${envs.ENVIRONMENT}, listening on PORT ${envs.PORT}`);
+		})
+	)
+	.then(() => seed());

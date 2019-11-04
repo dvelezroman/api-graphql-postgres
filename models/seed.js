@@ -1,6 +1,7 @@
+const bcrypt = require('bcrypt');
 const { User, Client, People, InsuranceType, Company, Config } = require('./index');
 
-const users = [
+const getUsers = async () => [
 	{
 		detail: {
 			document: '1310422793',
@@ -8,7 +9,7 @@ const users = [
 			first_name: 'Dario',
 			last_name: 'Velez',
 			email: 'usuario1@email.com',
-			password: 'Seguros2019@',
+			password: await bcrypt.hash('Seguros2019@', 10),
 			role: 'admin'
 		}
 	}
@@ -23,7 +24,8 @@ const clients = [
 			address: 'Calle Manta y 3 de Mayo',
 			province: 'Manabí',
 			city: 'Portoviejo',
-			status: true
+			status: true,
+			personId: 1
 		}
 	}
 ];
@@ -87,17 +89,19 @@ const configs = [
 	}
 ];
 
-function seed() {
+async function seed() {
+	const users = await getUsers();
 	const pConfig = configs.map(config => Config.create(config.detail));
 	const pUser = users.map(user => User.create(user.detail));
-	const pClients = clients.map(client => Client.create(client.detail));
 	const pPeople = people.map(person => People.create(person.detail));
 	const pCompanies = companies.map(company => Company.create(company.detail));
 	const pInsuranceTypes = insurance_types.map(insurance_type =>
 		InsuranceType.create(insurance_type.detail)
 	);
-	Promise.all(pConfig, pUser, pClients, pPeople, pCompanies, pInsuranceTypes).then(() => {
-		console.log('DataBase Seeded...');
+	Promise.all(pConfig, pUser, pPeople, pCompanies, pInsuranceTypes).then(() => {
+		Client.create(clients[0].detail).then(clientCreated => {
+			console.log('DataBase Seeded...');
+		});
 	});
 }
 
