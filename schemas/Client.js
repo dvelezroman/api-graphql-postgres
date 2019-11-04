@@ -30,6 +30,9 @@ const Client = new graphql.GraphQLObjectType({
 		},
 		personId: {
 			type: graphql.GraphQLInt
+		},
+		person: {
+			type: Person
 		}
 	})
 });

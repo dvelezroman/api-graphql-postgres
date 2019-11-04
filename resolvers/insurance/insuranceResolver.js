@@ -25,8 +25,20 @@ const getInsurances = {
 			};
 		}
 		const insurances = await models.Insurance.findAll({
-			include: [models.Client, models.Company, models.InsuranceType, models.People, models.User]
+			include: [
+				{
+					model: models.Client,
+					include: {
+						model: models.People
+					}
+				},
+				models.Company,
+				models.InsuranceType,
+				models.People,
+				models.User
+			]
 		});
+		console.log(JSON.stringify(insurances));
 		if (insurances.length) {
 			return {
 				status: true,
