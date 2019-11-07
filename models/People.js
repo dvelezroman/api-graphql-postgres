@@ -29,6 +29,9 @@ const People = db.define('people', {
 	},
 	birthday: {
 		type: Sequelize.DATE
+	},
+	contact: {
+		type: Sequelize.STRING
 	}
 });
 

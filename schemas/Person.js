@@ -27,6 +27,9 @@ const Person = new graphql.GraphQLObjectType({
 		address: {
 			type: graphql.GraphQLString
 		},
+		contact: {
+			type: graphql.GraphQLString
+		},
 		birthday: {
 			type: new graphql.GraphQLScalarType({
 				name: 'birthdayDate',
@@ -69,6 +72,9 @@ const InputPerson = new graphql.GraphQLInputObjectType({
 			type: graphql.GraphQLString
 		},
 		birthday: {
+			type: graphql.GraphQLString
+		},
+		contact: {
 			type: graphql.GraphQLString
 		}
 	})
