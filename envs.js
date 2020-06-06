@@ -1,4 +1,4 @@
-const node_env = process.env.NODE_ENV || 'development';
+const node_env = process.env.NODE_ENV || 'production';
 const port = process.env.PORT || 3000;
 
 const envs = () => {
