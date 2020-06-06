@@ -1,110 +1,107 @@
-const { Player, Team, Match } = require('./index');
+const bcrypt = require('bcrypt');
+const { User, Client, People, InsuranceType, Company, Config } = require('./index');
 
-const players = [
+const getUsers = async () => [
 	{
 		detail: {
+			document: '1310422793',
+			username: 'admin',
 			first_name: 'Dario',
 			last_name: 'Velez',
-			email: 'usuario@email.com',
-			password: 'password'
-		},
-		team: 'Barcelona'
-	},
+			email: 'usuario1@email.com',
+			password: await bcrypt.hash('Seguros2019@', 10),
+			role: 'admin'
+		}
+	}
+];
+
+const clients = [
 	{
 		detail: {
-			first_name: 'Jose',
+			type: 'Natural',
+			name: 'CaffeinaSW S.A.',
+			document: '1310422793',
+			address: 'Calle Manta y 3 de Mayo',
+			province: 'Manabí',
+			city: 'Portoviejo',
+			status: true,
+			personId: 1
+		}
+	}
+];
+
+const people = [
+	{
+		detail: {
+			document: '1310422793',
+			first_name: 'Dario',
 			last_name: 'Velez',
-			email: 'usuario@email.com',
-			password: 'password'
-		},
-		team: 'Emelec'
-	},
-	{
-		detail: {
-			first_name: 'Ariel',
-			last_name: 'Holgado',
-			email: 'usuario@email.com',
-			password: 'password'
-		},
-		team: 'Nacional'
-	},
-	{
-		detail: {
-			first_name: 'Mariano',
-			last_name: 'Lopez',
-			email: 'usuario@email.com',
-			password: 'password'
-		},
-		team: 'Aucas'
-	},
-];
-
-const teams = [
-	{
-		name: 'Emelec'
-	},
-	{
-		name: 'Barcelona'
-	},
-	{
-		name: 'Aucas'
-	},
-	{
-		name: 'Nacional'
+			email: 'dvelezroman@gmail.com',
+			city: 'Portoviejo',
+			province: 'Manabí',
+			address: 'Calle Manta y 3 de Mayo',
+			birthday: '1982/07/23'
+		}
 	}
 ];
 
-const matches = [
+const companies = [
 	{
 		detail: {
-			date: '2019/08/07',
-			result: 'homeTeamId'
-		},
-		homeTeamId: 'Barcelona',
-		awayTeamId: 'Emelec'
+			name: 'Equinoccial',
+			ref: '1111'
+		}
 	},
 	{
 		detail: {
-			date: '2019/08/07',
-			result: 'awayTeamId'
-		},
-		homeTeamId: 'Barcelona',
-		awayTeamId: 'Emelec'
-	},
-	{
-		detail: {
-			date: '2019/08/07',
-			result: 'awayTeamId'
-		},
-		homeTeamId: 'Aucas',
-		awayTeamId: 'Nacional'
+			name: 'Sucre',
+			ref: '1122'
+		}
 	}
 ];
 
-function seed() {
-	const pTeams = teams.map(team => Team.create(team));
-	Promise.all(pTeams).then(() => {
-		players.map(player =>
-			Team.findOne({
-				where: {
-					name: player.team
-				}
-			}).then(foundTeam =>
-				Player.create(player.detail).then(createdPlayer =>
-					createdPlayer.setTeam(foundTeam)
-				)
-			)
-		);
-	}).then(() => {
-		matches.map(match => Team.findOne({
-			where: { name: match.homeTeamId }
-		}).then(homeTeam => {
-			Team.findOne({ where: { name: match.awayTeamId }}).then(awayTeam => {
-				Match.create({ ...match.detail, homeTeamId: homeTeam.dataValues.id, awayTeamId: awayTeam.dataValues.id }).then(createdMatch => {
-					console.log(`Match ${createdMatch.dataValues.id} = ${homeTeam.dataValues.name} vs ${awayTeam.dataValues.name}`);
-				});
-			});
-		}));
+const insurance_types = [
+	{
+		detail: {
+			name: 'Vehiculos',
+			code: '1101'
+		}
+	},
+	{
+		detail: {
+			name: 'Salud',
+			code: '1102'
+		}
+	}
+];
+
+const configs = [
+	{
+		detail: {
+			mailserver: 'smtp.googlemail.com',
+			mailuser: 'caffeinasw@gmail.com',
+			mailpassword: 'telurico1604',
+			mailport: 465,
+			welcome: false,
+			birthday: false,
+			renewal: false
+		}
+	}
+];
+
+async function seed() {
+	const users = await getUsers();
+	const pConfig = configs.map(config => Config.create(config.detail));
+	const pUser = users.map(user => User.create(user.detail));
+	const pPeople = people.map(person => People.create(person.detail));
+	const pCompanies = companies.map(company => Company.create(company.detail));
+	const pInsuranceTypes = insurance_types.map(insurance_type =>
+		InsuranceType.create(insurance_type.detail)
+	);
+	Promise.all(pConfig, pUser, pPeople, pCompanies, pInsuranceTypes).then(() => {
+		Client.create(clients[0].detail).then(clientCreated => {
+			console.log('DataBase Seeded...');
+		});
 	});
 }
 

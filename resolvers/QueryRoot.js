@@ -1,38 +1,30 @@
 const graphql = require('graphql');
-
-const models = require('../models');
-const Player = require('../schemas/Player');
+const { getUser, getUsers } = require('./auth/userResolver');
+const { getClients, getClient } = require('./client/clientResolver');
+const { getCompany, getCompanies } = require('./company/companyResolver');
+const { getPeople, getPerson } = require('./people/peopleResolver');
+const { getTypes, getType } = require('./type/typeResolver');
+const { getInsurance, getInsurances } = require('./insurance/insuranceResolver');
+const { getConfig, getConfigs } = require('./config/configResolver');
 
 const QueryRoot = new graphql.GraphQLObjectType({
 	name: 'Query',
+	description: 'Querys for get information from schemas',
 	fields: () => ({
-		hello: {
-			type: graphql.GraphQLString,
-			resolve: () => 'Hello World'
-		},
-		playerById: {
-			type: Player,
-			args: { id: { type: graphql.GraphQLNonNull(graphql.GraphQLInt) } },
-			resolve: async (obj, args, { user }, info) => {
-				if (!user) {
-					throw new Error('You are not authenticated!');
-				}
-				const result = await models.Player.findOne({ where: { id: args.id }, include: { model: models.Team } });
-				return result;
-			}
-		},
-		players: {
-			type: new graphql.GraphQLList(Player),
-			resolve: async (obj, args, { user }, info) => {
-				if (!user) {
-					throw new Error('You are not authenticated!');
-				}
-				const players = await models.Player.findAll({
-					include: { model: models.Team }
-				});
-				return players;
-			}
-		}
+		user: getUser,
+		users: getUsers,
+		clients: getClients,
+		client: getClient,
+		company: getCompany,
+		companies: getCompanies,
+		people: getPeople,
+		person: getPerson,
+		type: getType,
+		types: getTypes,
+		insurances: getInsurances,
+		insurance: getInsurance,
+		config: getConfig,
+		configs: getConfigs
 	})
 });
 
