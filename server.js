@@ -1,6 +1,5 @@
 const express = require('express');
 const multer = require('multer');
-const fs = require('fs');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const jwt = require('express-jwt');
@@ -10,7 +9,7 @@ const MutationRoot = require('./resolvers/MutationRoot');
 const QueryRoot = require('./resolvers/QueryRoot');
 
 const db = require('./service/db');
-const seed = require('./models/seed');
+// const seed = require('./models/seed');
 const envs = require('./envs')(); // environment consts
 
 const app = express();
@@ -20,23 +19,26 @@ app.use(cors());
 
 const auth = jwt({
 	secret: envs.JWT_SECRET,
-	credentialsRequired: false
+	credentialsRequired: false,
 });
 
 const schema = new graphql.GraphQLSchema({
 	query: QueryRoot,
-	mutation: MutationRoot
+	mutation: MutationRoot,
 });
 
 // app.use(cors());
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
 	res.header('Access-Control-Allow-Origin', '*');
-	res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+	res.header(
+		'Access-Control-Allow-Headers',
+		'Origin, X-Requested-With, Content-Type, Accept'
+	);
 	next();
 });
 
-app.use('/app', function(req, res) {
+app.use('/app', function (req, res) {
 	// const indexFilePath = path.resolve(
 	// 	`${__dirname}/../browser/build/index.html`
 	// );
@@ -53,9 +55,9 @@ app.use(
 		return {
 			schema,
 			context: {
-				loggedUser: request.user
+				loggedUser: request.user,
 			},
-			graphiql: true
+			graphiql: true,
 		};
 	})
 );
@@ -68,9 +70,11 @@ let storage = multer.diskStorage({
 	filename: (req, file, cb) => {
 		cb(
 			null,
-			file.fieldname + '.' + file.originalname.split('.')[file.originalname.split('.').length - 1]
+			file.fieldname +
+				'.' +
+				file.originalname.split('.')[file.originalname.split('.').length - 1]
 		);
-	}
+	},
 });
 
 let upload = multer({ storage: storage });
@@ -87,7 +91,9 @@ app.post('/image-upload', upload.single('logo'), (req, res, next) => {
 
 db.sync({ force: false }).then(() =>
 	app.listen(envs.PORT, () => {
-		return console.log(`Server mode: ${envs.ENVIRONMENT}, listening on PORT ${envs.PORT}`);
+		return console.log(
+			`Server mode: ${envs.ENVIRONMENT}, listening on PORT ${envs.PORT}`
+		);
 	})
 );
 //.then(() => seed());
