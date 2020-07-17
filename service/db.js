@@ -9,11 +9,6 @@ if (envs.ENVIRONMENT === 'production') {
 		host: envs.DB_HOSTNAME,
 		logging: false,
 		dialect: 'postgres',
-		dialectOptions: {
-			ssl: {
-				ca: fs.readFileSync(__dirname + '/certs/ca-certificate.crt')
-			}
-		},
 		port: envs.DB_PORT
 	});
 } else {
