@@ -91,5 +91,4 @@ db.sync({ force: false }).then(() =>
 	})
 );
 
-
 //.then(() => seed());
