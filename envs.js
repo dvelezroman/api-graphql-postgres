@@ -20,7 +20,7 @@ const envs = () => {
 			SERVERURL: 'http://localhost/',
 			PORT: 3000,
 			JWT_SECRET: 'caffeinasw',
-			DB_NAME: 'admin_my_crm',
+			DB_NAME: 'seguros',
 			DB_USERNAME: 'my_crm',
 			DB_PASSWORD: 'my_crm2020@',
 			DB_HOSTNAME:
