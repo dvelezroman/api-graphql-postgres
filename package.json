@@ -1,14 +1,14 @@
 {
 	"name": "graphql_api",
-	"version": "0.0.1",
-	"description": "API with GraphQL",
+	"version": "1.0.0",
+	"description": "MyCRM - API with GraphQL",
 	"main": "server.js",
 	"scripts": {
-		"start": "NODE_ENV=development nodemon server.js",
-		"prod": "NODE_ENV=production nodemon server.js",
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"start": "node server.js",
+		"test": "NODE_ENV=production nodemon server.js",
+		"prod": "NODE_ENV=production pm2 start server.js"
 	},
-	"author": "Dario Velez",
+	"author": "Dario Velez Roman",
 	"license": "ISC",
 	"dependencies": {
 		"bcrypt": "^3.0.6",
@@ -16,7 +16,7 @@
 		"cors": "^2.8.5",
 		"express": "^4.17.1",
 		"express-graphql": "^0.9.0",
-		"express-jwt": "^5.3.1",
+		"express-jwt": "^6.0.0",
 		"graphql": "^14.4.2",
 		"jsonwebtoken": "^8.5.1",
 		"multer": "^1.4.2",

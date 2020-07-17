@@ -30,13 +30,13 @@ const schema = new graphql.GraphQLSchema({
 
 // app.use(cors());
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
 	res.header('Access-Control-Allow-Origin', '*');
 	res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
 	next();
 });
 
-app.use('/app', function(req, res) {
+app.use('/app', function (req, res) {
 	// const indexFilePath = path.resolve(
 	// 	`${__dirname}/../browser/build/index.html`
 	// );
@@ -90,4 +90,5 @@ db.sync({ force: false }).then(() =>
 		return console.log(`Server mode: ${envs.ENVIRONMENT}, listening on PORT ${envs.PORT}`);
 	})
 );
+
 //.then(() => seed());

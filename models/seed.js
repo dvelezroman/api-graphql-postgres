@@ -93,15 +93,15 @@ async function seed() {
 	const users = await getUsers();
 	const pConfig = configs.map(config => Config.create(config.detail));
 	const pUser = users.map(user => User.create(user.detail));
-	const pPeople = people.map(person => People.create(person.detail));
-	const pCompanies = companies.map(company => Company.create(company.detail));
-	const pInsuranceTypes = insurance_types.map(insurance_type =>
-		InsuranceType.create(insurance_type.detail)
-	);
-	Promise.all(pConfig, pUser, pPeople, pCompanies, pInsuranceTypes).then(() => {
-		Client.create(clients[0].detail).then(clientCreated => {
-			console.log('DataBase Seeded...');
-		});
+	// const pPeople = people.map(person => People.create(person.detail));
+	// const pCompanies = companies.map(company => Company.create(company.detail));
+	// const pInsuranceTypes = insurance_types.map(insurance_type =>
+	// 	InsuranceType.create(insurance_type.detail)
+	// );
+	Promise.all(pConfig, pUser).then(() => {
+		// Client.create(clients[0].detail).then(clientCreated => {
+		console.log('DataBase Seeded...');
+		// });
 	});
 }
 

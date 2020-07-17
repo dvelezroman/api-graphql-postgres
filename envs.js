@@ -1,12 +1,12 @@
-const node_env = process.env.NODE_ENV || 'development';
-const port = process.env.PORT || 3000;
+const node_env = process.env.NODE_ENV || 'production';
+const port = process.env.PORT;
 
 const envs = () => {
 	if (node_env === 'development') {
 		return {
 			ENVIRONMENT: 'development',
 			SERVERURL: 'http://localhost:3000/',
-			PORT: port,
+			PORT: 3000,
 			JWT_SECRET: 'caffeinasw',
 			DB_NAME: 'seguros',
 			DB_USERNAME: 'postgres',
@@ -18,14 +18,14 @@ const envs = () => {
 		return {
 			ENVIRONMENT: 'production',
 			SERVERURL: 'http://localhost/',
-			PORT: port,
+			PORT: 3000,
 			JWT_SECRET: 'caffeinasw',
-			DB_NAME: 'seguros',
-			DB_USERNAME: 'doadmin',
-			DB_PASSWORD: 'i9wo9refuagzdbud',
+			DB_NAME: 'admin_my_crm',
+			DB_USERNAME: 'my_crm',
+			DB_PASSWORD: 'my_crm2020@',
 			DB_HOSTNAME:
-				'db-postgresql-nyc1-68324-do-user-6604645-0.db.ondigitalocean.com',
-			DB_PORT: 25060,
+				'localhost',
+			DB_PORT: 5432,
 			sslmode: require,
 		};
 	}
