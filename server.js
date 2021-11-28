@@ -10,6 +10,7 @@ const QueryRoot = require('./resolvers/QueryRoot');
 
 const db = require('./service/db');
 const envs = require('./envs')(); // environment consts
+const seed = require('./models/seed');
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(cors());
 
 const auth = jwt({
 	secret: envs.JWT_SECRET,
+	algorithms: ['HS256'],
 	credentialsRequired: false
 });
 
@@ -39,7 +41,7 @@ app.use('/app', function (req, res) {
 	// 	`${__dirname}/../browser/build/index.html`
 	// );
 	// res.sendFile(indexFilePath);
-	res.status(200).json({ msg: 'verga' });
+	res.status(200).json({ msg: 'message' });
 });
 
 //app.use(loggingMiddleware);
@@ -83,10 +85,9 @@ app.post('/image-upload', upload.single('logo'), (req, res, next) => {
 	res.status(200).json({ status: true, msg: 'Uploaded' });
 });
 
-db.sync({ force: false }).then(() =>
-	app.listen(envs.PORT, () => {
-		return console.log(`Server mode: ${envs.ENVIRONMENT}, listening on PORT ${envs.PORT}`);
-	})
-);
-
-//.then(() => seed());
+db.sync({ force: true })
+	.then(() =>
+		app.listen(envs.PORT, () => {
+			return console.log(`Server mode: ${envs.ENVIRONMENT}, listening on PORT ${envs.PORT}`);
+		})
+	).then(() => seed());

@@ -1,6 +1,5 @@
 const Sequelize = require('sequelize');
 const envs = require('../envs')();
-const fs = require('fs');
 
 let db = null;
 
@@ -8,15 +7,13 @@ if (envs.ENVIRONMENT === 'production') {
 	db = new Sequelize(envs.DB_NAME, envs.DB_USERNAME, envs.DB_PASSWORD, {
 		host: envs.DB_HOSTNAME,
 		logging: false,
-		dialect: 'postgres',
-		port: envs.DB_PORT
+		dialect: 'mysql',
 	});
 } else {
 	db = new Sequelize(envs.DB_NAME, envs.DB_USERNAME, envs.DB_PASSWORD, {
 		host: envs.DB_HOSTNAME,
-		logging: false,
-		dialect: 'postgres',
-		port: envs.DB_PORT
+		logging: true,
+		dialect: 'mysql',
 	});
 }
 
