@@ -1,6 +1,5 @@
 const express = require('express');
 const multer = require('multer');
-const fs = require('fs');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const jwt = require('express-jwt');
@@ -10,7 +9,6 @@ const MutationRoot = require('./resolvers/MutationRoot');
 const QueryRoot = require('./resolvers/QueryRoot');
 
 const db = require('./service/db');
-const seed = require('./models/seed');
 const envs = require('./envs')(); // environment consts
 
 const app = express();
@@ -49,7 +47,7 @@ app.use(
 	'/api',
 	bodyParser.json(),
 	auth,
-	graphqlHTTP((request, response, graphQLParams) => {
+	graphqlHTTP((request) => {
 		return {
 			schema,
 			context: {
