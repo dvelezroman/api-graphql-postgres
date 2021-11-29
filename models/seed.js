@@ -8,7 +8,7 @@ const getUsers = async () => [
 			username: 'admin',
 			first_name: 'Dario',
 			last_name: 'Velez',
-			email: 'usuario1@email.com',
+			email: 'caffeinasw@gmail.com',
 			password: await bcrypt.hash('Seguros2021@', 10),
 			role: 'admin'
 		}

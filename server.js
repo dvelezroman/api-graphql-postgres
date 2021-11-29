@@ -90,4 +90,4 @@ db.sync({ force: false })
 		app.listen(envs.PORT, () => {
 			return console.log(`Server mode: ${envs.ENVIRONMENT}, listening on PORT ${envs.PORT}`);
 		})
-	);//.then(() => seed());
+	); //.then(() => seed());
