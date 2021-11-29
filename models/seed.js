@@ -9,7 +9,7 @@ const getUsers = async () => [
 			first_name: 'Dario',
 			last_name: 'Velez',
 			email: 'usuario1@email.com',
-			password: await bcrypt.hash('Seguros2019@', 10),
+			password: await bcrypt.hash('Seguros2021@', 10),
 			role: 'admin'
 		}
 	}
@@ -80,7 +80,7 @@ const configs = [
 		detail: {
 			mailserver: 'smtp.googlemail.com',
 			mailuser: 'caffeinasw@gmail.com',
-			mailpassword: 'telurico1604',
+			mailpassword: 'vergazapallienta2021',
 			mailport: 465,
 			welcome: false,
 			birthday: false,
