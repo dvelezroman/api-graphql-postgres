@@ -6,7 +6,7 @@
 	"scripts": {
 		"start": "node server.js",
 		"dev": "nodemon server.js",
-		"prod": "NODE_ENV=production pm2 start server.js"
+		"prod": "NODE_ENV=production pm2 start server.js --name my_smart_crm"
 	},
 	"author": "Dario Velez Roman",
 	"license": "ISC",
