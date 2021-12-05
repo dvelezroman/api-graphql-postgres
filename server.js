@@ -53,6 +53,8 @@ app.use('/app', function (req, res) {
 	res.status(200).json({ msg: 'message' });
 });
 
+app.use(cors());
+
 //app.use(loggingMiddleware);
 app.use(
 	'/api',
