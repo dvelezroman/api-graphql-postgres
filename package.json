@@ -4,9 +4,9 @@
 	"description": "MyCRM - API with GraphQL",
 	"main": "server.js",
 	"scripts": {
-		"start": "node server.js mysmartcrm",
+		"start": "NODE_ENV=production node server.js mysmartcrm",
     "stop": "killall -SIGINT mysmartcrm",
-		"dev": "nodemon server.js",
+		"dev": "NODE_ENV=development nodemon server.js",
 		"prod": "NODE_ENV=production pm2 start server.js --name my_smart_crm"
 	},
 	"author": "Dario Velez Roman",

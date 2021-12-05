@@ -1,4 +1,6 @@
 const express = require('express');
+const https = require('https');
+const fs = require('fs');
 const multer = require('multer');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -11,6 +13,13 @@ const QueryRoot = require('./resolvers/QueryRoot');
 const db = require('./service/db');
 const envs = require('./envs')(); // environment consts
 const seed = require('./models/seed');
+
+const keysDir = 'certs/';
+const sslOptions = {
+	key  : fs.readFileSync(keysDir + 'key.pem'),
+	cert : fs.readFileSync(keysDir + 'cert.pem'),
+	passphrase: 'Ivana17011701'
+};
 
 const app = express();
 
@@ -87,7 +96,7 @@ app.post('/image-upload', upload.single('logo'), (req, res, next) => {
 
 db.sync({ force: false })
 	.then(() =>
-		app.listen(envs.PORT, () => {
+		https.createServer(sslOptions, app).listen(envs.PORT, () => {
 			return console.log(`Server mode: ${envs.ENVIRONMENT}, listening on PORT ${envs.PORT}`);
 		})
 	); //.then(() => seed());
