@@ -4,7 +4,8 @@
 	"description": "MyCRM - API with GraphQL",
 	"main": "server.js",
 	"scripts": {
-		"start": "node server.js",
+		"start": "node server.js mysmartcrm",
+    "stop": "killall -SIGINT mysmartcrm",
 		"dev": "nodemon server.js",
 		"prod": "NODE_ENV=production pm2 start server.js --name my_smart_crm"
 	},
