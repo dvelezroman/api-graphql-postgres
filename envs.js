@@ -19,7 +19,7 @@ const envs = () => {
 		return {
 			ENVIRONMENT: 'production',
 			SERVERURL: 'http://localhost/',
-			PORT: 3001,
+			PORT: 8443,
 			JWT_SECRET: 'caffeinasw',
 			DB_NAME: 'my_crm_db',
 			DB_USERNAME: 'dvelez',
