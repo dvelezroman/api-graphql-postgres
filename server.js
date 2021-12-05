@@ -98,7 +98,7 @@ app.post('/image-upload', upload.single('logo'), (req, res, next) => {
 
 db.sync({ force: false })
 	.then(() =>
-		https.createServer(sslOptions, app).listen(envs.PORT, () => {
+		app.listen(envs.PORT, () => {
 			return console.log(`Server mode: ${envs.ENVIRONMENT}, listening on PORT ${envs.PORT}`);
 		})
 	); //.then(() => seed());
