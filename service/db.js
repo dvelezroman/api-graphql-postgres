@@ -7,7 +7,7 @@ if (envs.ENVIRONMENT === 'production') {
 	db = new Sequelize(envs.DB_NAME, envs.DB_USERNAME, envs.DB_PASSWORD, {
 		host: envs.DB_HOSTNAME,
 		logging: false,
-		dialect: 'mariadb',
+		dialect: 'mysql',
 	});
 } else {
 	db = new Sequelize(envs.DB_NAME, envs.DB_USERNAME, envs.DB_PASSWORD, {
